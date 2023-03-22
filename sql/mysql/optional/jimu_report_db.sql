@@ -1,0 +1,134 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 50726 (5.7.26)
+ Source Host           : localhost:3306
+ Source Schema         : ruoyi-vue-pro3
+
+ Target Server Type    : MySQL
+ Target Server Version : 50726 (5.7.26)
+ File Encoding         : 65001
+
+ Date: 22/03/2023 11:01:04
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for jimu_report_db
+-- ----------------------------
+DROP TABLE IF EXISTS `jimu_report_db`;
+CREATE TABLE `jimu_report_db`  (
+  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
+  `jimu_report_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主键字段',
+  `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人登录名称',
+  `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人登录名称',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建日期',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新日期',
+  `db_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据集编码',
+  `db_ch_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据集名字',
+  `db_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源类型',
+  `db_table_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库表名',
+  `db_dyn_sql` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '动态查询SQL',
+  `db_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源KEY',
+  `tb_db_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '填报数据源',
+  `tb_db_table_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '填报数据表',
+  `java_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'java类数据集  类型（spring:springkey,class:java类名）',
+  `java_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'java类数据源  数值（bean key/java类名）',
+  `api_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求地址',
+  `api_method` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法0-get,1-post',
+  `is_list` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否是列表0否1是 默认0',
+  `is_page` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否作为分页,0:不分页，1:分页',
+  `db_source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据源',
+  `db_source_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库类型 MYSQL ORACLE SQLSERVER',
+  `json_data` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'json数据，直接解析json内容',
+  `api_convert` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'api转换器',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_jmreportdb_db_key`(`db_key`) USING BTREE,
+  INDEX `idx_jimu_report_id`(`jimu_report_id`) USING BTREE,
+  INDEX `idx_db_source_id`(`db_source`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of jimu_report_db
+-- ----------------------------
+INSERT INTO `jimu_report_db` VALUES ('1272834687525482497', '53c82a76f837d5661dceec7d93afafec', 'admin', NULL, '2021-01-04 20:42:17', '2021-01-04 20:42:17', 'jianpiao', 'jianpiao', '0', NULL, 'select * from rep_demo_jianpiao where s_id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1272858455908073473', 'ff9bd143582a6dfed897ba8b6f93b175', 'admin', NULL, '2020-12-14 16:21:09', '2020-12-14 16:21:09', 'xiaoshou', 'xiaoshou', '0', NULL, 'select * from rep_demo_xiaoshou where s_id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1273495682564534273', 'ff9bd143582a6dfed897ba8b6f93b175', 'admin', NULL, '2020-09-28 10:18:07', '2020-12-14 16:21:09', 'gongsi', 'gongsi', '0', NULL, 'select * from rep_demo_gongsi where id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1283730831482937345', '6059e405dd9c66a6d38e00841d2e40cc', 'admin', NULL, '2020-12-04 16:53:38', '2020-12-04 16:53:38', 'yaopin', 'yaopin', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/chufangjian', '0', '0', '0', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1283957016150249473', '6059e405dd9c66a6d38e00841d2e40cc', NULL, NULL, '2020-07-17 10:49:42', NULL, 'yonghu', 'yonghu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/yonghu', '0', '0', NULL, NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1284070508744257537', 'a250846887abe01217aab173d3006489', NULL, NULL, '2020-07-17 15:33:53', '2020-07-20 17:50:49', 'budong', 'budong', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/budongchan', '0', '0', NULL, NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1285157606524002305', 'a9f068972508920cd4aab831814f0c04', 'admin', 'admin', '2021-04-01 02:44:48', '2021-04-01 02:44:48', 'pdaibu', 'pdaibu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/daibu', '0', '0', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1285164420728692737', '7905022412733a0c68dc7b4ef8947489', NULL, NULL, '2020-07-20 18:47:30', NULL, 'jieshaoxin', 'jieshaoxin', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/jieshaoxin', '0', '0', NULL, NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1285178919099637762', '6d6bdcb5e820c301ea32789e3ae43c44', NULL, NULL, '2020-07-20 19:45:06', NULL, 'qiangxiu', 'qiangxiu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/qiangxiu', '0', '0', NULL, NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1288038655293661186', 'f6ee801e8bdc28ba9d63f95dc65ccd79', 'admin', 'admin', '2021-04-01 03:09:40', '2021-04-01 03:09:40', 'caigou', 'caigou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/caigou?pageNo=\'${pageNo}\'&pageSize=\'${pageSize}\'', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1289140698221678593', '519c1c6f4d1f584ae8fa5b43b45acdc7', 'admin', 'admin', '2021-04-01 03:09:23', '2021-04-01 03:09:23', 'xiaoshou', 'xiaoshou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/xiaoshou?pageNo=\'${pageNo}\'&pageSize=\'${pageSize}\'', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1290104038414721025', '53c82a76f837d5661dceec7d93afafec', 'admin', NULL, '2021-01-04 20:47:07', '2021-01-04 20:47:07', 'gongsi', 'gongsi', '0', NULL, 'select * from rep_demo_gongsi where id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1316987047604514817', '1314846205892759552', 'admin', NULL, '2021-01-08 10:36:58', '2021-01-08 10:36:58', 'yuangongjiben', 'yuangongjiben', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/yuangongjiben', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1316997232402231298', '1316944968992034816', 'admin', NULL, '2021-01-13 14:34:06', '2021-01-13 14:34:06', 'employee', 'employee', '0', NULL, 'select * from rep_demo_employee  where id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '', '', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1317006713165049858', '1314846205892759552', 'admin', NULL, '2021-01-11 14:38:14', '2021-01-11 14:38:14', 'xueli', 'xueli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xueli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1317007979484147714', '1314846205892759552', 'admin', NULL, '2021-01-08 10:40:31', '2021-01-08 10:40:31', 'uu', 'uu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/gongzuojingli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1317009166140829698', '1314846205892759552', 'admin', NULL, '2020-10-16 15:47:09', '2021-01-05 15:33:58', 'zhengshu', 'zhengshu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/zhengshu', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1317013474634756097', '1314846205892759552', 'admin', NULL, '2020-10-16 16:04:16', '2021-01-05 15:33:58', 'jtcy', 'jtcy', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jtcy', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1317015169494282241', '1314846205892759552', 'admin', NULL, '2020-10-16 16:11:00', '2021-01-05 15:33:58', 'jiangli', 'jiangli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jiangli', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331511745851731969', '1331503965770223616', 'admin', NULL, '2020-11-25 16:15:13', '2020-11-25 16:15:13', 'chengjiao', 'chengjiao', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/chengjiao', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331514838211407873', '1331503965770223616', 'admin', NULL, '2020-11-25 16:27:30', '2020-11-25 16:27:30', 'cjpaihang', 'cjpaihang', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/cjpaihang', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331514935028527106', '1331503965770223616', 'admin', NULL, '2020-11-25 16:27:54', '2020-11-25 16:27:54', 'cjjine', 'cjjine', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/cjjine', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331872643531526146', '1331503965770223616', 'admin', NULL, '2020-11-26 16:09:18', '2020-11-26 16:09:18', 'chengjiao1', 'chengjiao1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/chengjiao1', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331878107552010242', '1331503965770223616', 'admin', NULL, '2020-11-26 16:31:01', '2020-11-26 16:31:01', 'zhuangxiu', 'zhuangxiu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/zhuangxiu', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331916030221602818', '1331503965770223616', 'admin', NULL, '2020-11-26 19:01:42', '2020-11-26 19:01:42', 'btchanquan', 'btchanquan', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/btchanquan', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331919172472524801', '1331503965770223616', 'admin', NULL, '2020-11-26 19:14:11', '2020-11-26 19:14:11', 'huxingxiaoshou', 'huxingxiaoshou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/huxingxiaoshou', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331922734933987329', '1331503965770223616', 'admin', NULL, '2020-11-26 19:28:21', '2020-11-26 19:28:21', 'fangyuan', 'fangyuan', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/fangyuan', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1331926127597441025', '1331503965770223616', 'admin', NULL, '2020-11-26 19:41:49', '2020-11-26 19:41:49', 'qingkuang', 'qingkuang', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/qingkuang', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1334390762455965697', '1334378897302753280', 'admin', NULL, '2021-01-06 11:43:35', '2021-01-06 11:43:35', 'quyuxiaoshou', 'quyuxiaoshou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/quyuxiaoshou', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1334440263732436994', '1334420681185566722', 'admin', NULL, '2021-01-04 21:28:19', '2021-01-04 21:28:19', 'laiyuan', 'laiyuan', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/laiyuan', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1334465135435063298', '1334457419857793024', 'admin', NULL, '2021-01-04 21:29:28', '2021-01-04 21:29:28', 'xiaoshou', 'xiaoshou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xiaoshou', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1334708015269490689', '1334696790477377536', 'admin', NULL, '2021-01-04 21:30:29', '2021-01-04 21:30:29', 'shouru', 'shouru', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/shouru', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1334763434197200897', '1334757703079301120', 'admin', NULL, '2020-12-04 15:40:31', '2020-12-04 15:40:31', 'chejian', 'chejian', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/chejian', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('1338756341933543425', '1338744112815411200', 'admin', NULL, '2021-02-02 19:20:56', '2021-02-02 19:20:56', 'jdcx', 'jdcx', '0', NULL, 'select * from rep_demo_dxtj', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('22f025b781ee9fe4746438621e82674f', '01a1e07ed4b12348b29d5a47ac7f0228', 'admin', NULL, '2020-12-14 16:21:09', '2020-12-14 16:21:09', 'xiaoshou', 'xiaoshou', '0', NULL, 'select * from rep_demo_xiaoshou where s_id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('2324fac242b35938678a05bbbba345e2', '7acddbc92bc73d06c7f62ff55dfdca19', 'admin', NULL, '2021-01-11 14:25:45', '2021-01-11 14:25:45', 'xiaoshou', 'xiaoshou', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/xiaoshou?pageNo=\'${pageNo}\'&pageSize=\'${pageSize}\'', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('28e0b01cc3e2b0d361107661527bfdff', '6df599d933df24de007764d0e98eb105', 'admin', NULL, '2020-12-04 16:53:38', '2020-12-04 16:53:38', 'yaopin', 'yaopin', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/chufangjian', '0', '0', '0', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('4af57d343f1d6521b71b85097b580786', '1347459370216198144', 'admin', NULL, '2021-01-08 17:26:57', '2021-01-08 17:26:57', 'tmp_report_data_income', '来源收入统计', '0', NULL, 'select * from tmp_report_data_income', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('4dc208eb92fd1a84ef7b4723251e3e51', '5485950d88c9918d03dece2ad24b4d72', 'admin', NULL, '2021-01-08 16:24:16', '2021-01-08 16:24:16', 'tmp_report_data_1', '年度佣金收入', '0', NULL, 'select monty,main_income,total,his_lowest,his_average,his_highest from tmp_report_data_1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('537477711022567424', '537446834339098624', 'admin', 'admin', '2021-04-01 05:54:42', '2021-04-01 05:54:42', 'yy', 'yy', '0', NULL, 'select * from rep_demo_dxtj', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('537478337278291968', '537446834339098624', 'admin', 'admin', '2021-04-01 05:54:37', '2021-04-01 05:54:37', 'tt', 'tt', '0', NULL, 'select *  from SYS_DATA_LOG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '26d21fe4f27920d2f56abc8d90a8e527', 'ORACLE', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('537478706314129408', '537446834339098624', 'admin', 'admin', '2021-04-01 05:56:44', '2021-04-01 05:56:44', 'pp', 'pp', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/caigou', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873661957337088', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-08 10:36:58', 'yuangongjiben', 'yuangongjiben', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/yuangongjiben', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873663005913088', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-11 14:38:14', 'xueli', 'xueli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xueli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873663161102336', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-08 10:40:31', 'uu', 'uu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/gongzuojingli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873663341457408', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-05 15:33:58', 'zhengshu', 'zhengshu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/zhengshu', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873663500840960', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-05 15:33:58', 'jtcy', 'jtcy', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jtcy', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574873663693778944', '574873661613404160', 'admin', NULL, '2021-07-13 10:29:32', '2021-01-05 15:33:58', 'jiangli', 'jiangli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jiangli', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875722388205568', '574875722233016320', 'admin', NULL, '2021-07-13 10:37:43', '2021-01-08 10:47:52', 'tt', 'tt', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/shixi', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875730650984448', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-08 10:36:58', 'yuangongjiben', 'yuangongjiben', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/yuangongjiben', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875731594702848', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-11 14:38:14', 'xueli', 'xueli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xueli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875731737309184', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-08 10:40:31', 'uu', 'uu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/gongzuojingli', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875731867332608', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-05 15:33:58', 'zhengshu', 'zhengshu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/zhengshu', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875731997356032', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-05 15:33:58', 'jtcy', 'jtcy', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jtcy', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('574875732131573760', '574875730525155328', 'admin', NULL, '2021-07-13 10:37:45', '2021-01-05 15:33:58', 'jiangli', 'jiangli', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/jiangli', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('6011955e58d89040fca52e7f962d0bf4', '961455b47c0b86dc961e90b5893bff05', 'admin', NULL, '2021-01-04 20:47:07', '2021-01-04 20:47:07', 'gongsi', 'gongsi', '0', NULL, 'select * from rep_demo_gongsi where id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('60b3feffadc55eb49baa5a48fdf1ff0e', '1352160857479581696', 'admin', NULL, '2021-01-29 18:36:35', '2021-01-29 18:36:35', 'infoForReport', '信息', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://localhost:8080/jeecg-boot/sys/actuator/redis/infoForReport', '0', '1', '1', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('629609c4d540cb4675e9064af8955296', '7c02c224a2db56d0350069650033f702', 'admin', NULL, '2021-02-02 19:33:09', '2021-02-02 19:33:09', 'hecha', 'hecha', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/hecha', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('654609e4247a0469e0b2befbc69b00f9', '1cd9d574d0c42f3915046dc61d9f33bd', 'admin', NULL, '2020-12-17 16:42:21', '2020-12-17 19:50:14', 'xiaoshoue', '销售额', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xiaoshoue', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('6a1d22ca4c95e8fab655d3ceed43a84d', '1352160857479581696', 'admin', NULL, '2021-01-29 18:36:42', '2021-01-29 18:36:42', 'memoryForReport', '内存', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://localhost:8080/jeecg-boot/sys/actuator/redis/memoryForReport', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('7911bd189c2d53e182693bd599a315a2', '1cd9d574d0c42f3915046dc61d9f33bd', 'admin', NULL, '2020-12-17 16:59:12', '2020-12-17 19:50:14', 'chengshi', '城市', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/chengshi', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('796750399397117952', '796748840047165440', '1', '1', '2023-03-18 00:48:53', '2023-03-18 00:48:53', 'kpi_assess_store', 'kpi指标库', '0', NULL, 'select *  from kpi_assess_store', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '796749220114022400', 'mysql', '', '');
+INSERT INTO `jimu_report_db` VALUES ('796893735432962048', '796891853532643328', '1', '1', '2023-03-21 00:43:52', '2023-03-21 00:43:52', 'kpi_assess_staff_item', '绩效考核评分汇总表', '0', NULL, 'SELECT\n	kpi_assess_staff_item.assess_title, \n	kpi_assess_staff_item.staff, \n	kpi_assess_staff_item.post,\n	SUM(kpi_assess_staff_item.decider_score)  as score\nFROM\n	kpi_assess_staff_item\nGROUP BY\n	assess_title, \n	staff,\n	post', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '796749220114022400', 'mysql', '', '');
+INSERT INTO `jimu_report_db` VALUES ('7b20679054449c554cde856ef24126ab', '1347454742040809472', 'admin', NULL, '2021-01-08 16:24:16', '2021-01-08 16:24:16', 'tmp_report_data_1', '年度佣金收入', '0', NULL, 'select monty,main_income,total,his_lowest,his_average,his_highest from tmp_report_data_1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('94bcd8202bc6bc467efd0d679dadd7bb', '1338370016550195200', 'admin', 'admin', '2021-07-12 12:15:08', '2021-07-12 12:15:08', 'tm', 'tm', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/tiaoma1', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('9b75c161322e0b7e29b3ffc84239a72c', '1cd9d574d0c42f3915046dc61d9f33bd', 'admin', NULL, '2020-12-17 17:13:21', '2020-12-17 19:50:14', 'xsjd', '销售进度', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/xsjd', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('9b7d28336b01f9a6b1a613957c3d7cda', '1338769064067076098', 'admin', NULL, '2021-02-02 19:12:55', '2021-02-02 19:12:55', 'pop', 'pop', '0', NULL, 'select * from rep_demo_dxtj', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '0', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('a543d8dd40f4d26839b78bd604be659e', 'f5f275b5e28b45256ef24587ec792f0c', 'admin', NULL, '2021-01-08 17:26:57', '2021-01-08 17:26:57', 'tmp_report_data_income', '来源收入统计', '0', NULL, 'select * from tmp_report_data_income', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '', 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('bbc5d5ab143d59f0beab484682361aa5', 'dd482bfd6ca470a0f49d9bb4e61ec694', 'admin', NULL, '2021-01-08 10:47:52', '2021-01-08 10:47:52', 'tt', 'tt', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/shixi', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('c9bdb6b7ac68accfecb366718bf78f79', '01a1e07ed4b12348b29d5a47ac7f0228', 'admin', NULL, '2020-09-28 10:18:07', '2020-12-14 16:21:09', 'gongsi', 'gongsi', '0', NULL, 'select * from rep_demo_gongsi where id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('d4a29dfda94357308faf62be2b94db08', '1352160857479581696', 'admin', NULL, '2021-01-29 18:36:47', '2021-01-29 18:36:47', 'keysSizeForReport', '数量', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://localhost:8080/jeecg-boot/sys/actuator/redis/keysSizeForReport', '0', '1', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('e0fe1d693625c906c1171d7de706a47c', '6df599d933df24de007764d0e98eb105', NULL, NULL, '2020-07-17 10:49:42', NULL, 'yonghu', 'yonghu', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/yonghu', '0', '0', NULL, NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('e4cec9ff15bc0ea42f536a442a6d1335', '961455b47c0b86dc961e90b5893bff05', 'admin', NULL, '2021-01-04 20:42:17', '2021-01-04 20:42:17', 'jianpiao', 'jianpiao', '0', NULL, 'select * from rep_demo_jianpiao where s_id=\'${id}\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', NULL, 'MYSQL', NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('f7649b77cfc9e0a9dacdac370cd4036b', '1347373863746539520', 'admin', NULL, '2021-01-08 10:47:52', '2021-01-08 10:47:52', 'tt', 'tt', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/baobiao/shixi', '0', '0', '0', '', NULL, NULL, NULL);
+INSERT INTO `jimu_report_db` VALUES ('fb70a91730f087f8023afd88d24f9697', '1cd9d574d0c42f3915046dc61d9f33bd', 'admin', NULL, '2020-12-17 19:50:14', '2020-12-17 19:50:14', 'zhexian', 'zhexian', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'http://api.jeecg.com/mock/26/zhexian', '0', '1', '1', '', NULL, NULL, NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;
