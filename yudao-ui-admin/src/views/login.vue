@@ -9,7 +9,7 @@
       <div class="field">
         <!-- [移动端]标题 -->
         <h2 class="mobile-title">
-          <h3 class="title">芋道后台管理系统</h3>
+          <h3 class="title">盈科律师事务所内部资源管理系统</h3>
         </h2>
 
         <!-- 表单 -->
@@ -94,7 +94,7 @@
 
     <!-- footer -->
     <div class="footer">
-      Copyright © 2020-2022 iocoder.cn All Rights Reserved.
+      Copyright © 2020-2023 yingkesx.com All Rights Reserved.
     </div>
   </div>
 </template>
@@ -136,7 +136,7 @@ export default {
         mobile: "",
         mobileCode: "",
         rememberMe: false,
-        tenantName: "芋道源码",
+        tenantName: "yksx",
       },
       scene: 21,
 

@@ -256,7 +256,8 @@ export default {
   computed: {
     ...mapGetters([
       'avatar',
-      'nickname'
+      'nickname',
+      "roles"
     ])
   },
   methods: {

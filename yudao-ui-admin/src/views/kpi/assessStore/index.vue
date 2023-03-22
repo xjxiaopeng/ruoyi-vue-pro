@@ -26,8 +26,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="是否必选" prop="fixed">
-        <el-select v-model="queryParams.fixed" placeholder="请选择是否必选" clearable size="small">
+      <el-form-item label="全员指标" prop="fixed">
+        <el-select v-model="queryParams.fixed" placeholder="请选择是否全员指标" clearable size="small">
           <el-option v-for="dict in this.getDictDatas(DICT_TYPE.KPI_ASSESS_FIXED)"
                      :key="dict.value" :label="dict.label" :value="dict.value"
           />
@@ -74,7 +74,7 @@
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="是否必选" min-width="8%" align="center" prop="fixed">
+      <el-table-column label="全员指标" min-width="8%" align="center" prop="fixed">
         <template v-slot="scope">
           <span>{{ scope.row.fixed == 0 ? '是' : '否' }}</span>
         </template>
@@ -130,7 +130,7 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="是否必选" prop="fixed">
+        <el-form-item label="全员指标" prop="fixed">
           <el-radio-group v-model="form.fixed" @change="radioChange">
             <el-radio :key="0" :label="0">是</el-radio>
             <el-radio :key="1" :label="1">否</el-radio>
@@ -203,7 +203,7 @@ export default {
         standard: [{ required: true, message: '考核标准不能为空', trigger: 'blur' }],
         score: [{ required: true, message: '考核分值不能为空', trigger: 'blur' }],
         status: [{ required: true, message: '指标状态不能为空', trigger: 'change' }],
-        fixed: [{ required: true, message: '是否必选', trigger: 'blur' }]
+        fixed: [{ required: true, message: '全员指标', trigger: 'blur' }]
       },
       // 数据字典
       statusDictDatas: getDictDatas(DICT_TYPE.COMMON_STATUS)
@@ -222,7 +222,7 @@ export default {
         this.form.fixed=1
       }
     },
-    /* 是否必选按钮发生变化时 */
+    /* 全员指标按钮发生变化时 */
     radioChange(value) {
 
       if (value == 0) {

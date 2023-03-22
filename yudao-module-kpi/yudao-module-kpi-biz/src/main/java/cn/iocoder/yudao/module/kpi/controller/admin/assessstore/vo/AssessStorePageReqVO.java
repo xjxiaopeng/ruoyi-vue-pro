@@ -36,8 +36,8 @@ public class AssessStorePageReqVO extends PageParam {
     @Schema(description = "是否必选（0必选 1可选）")
     private Integer fixed;
 
-    //@Schema(description = "创建时间")
-    //@DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    //private LocalDateTime[] createTime;
+    @Schema(description = "创建时间")
+    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
+    private LocalDateTime[] createTime;
 
 }
