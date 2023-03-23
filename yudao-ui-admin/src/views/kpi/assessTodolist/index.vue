@@ -12,6 +12,16 @@
         <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
+      <el-tooltip placement="bottom" effect="light">
+        <div style="font-size: 13px;line-height: 30px; " slot="content">
+          ①此考核满分为100分，80分及以上可发放全额绩效工资。每月各项目评分人评分后由人力资源部统一汇总，以此为依据核算工资。
+          <br/>②连续3个月绩效考核分数低于60分，降职一级并降薪，连续3个月绩效考核分数低于50分，事务所有权单方解除劳动合同，并不支付任何形式的经济赔偿及违约金。
+          <br/>③每月按照预算表业绩目标数，月末根据业绩完成率，发放相应绩效工资。
+          <br/>④原则上绩效得分最高不超过200分，主任可根据情况调整。
+          <br/>⑤工作出现重大失误，绩效工资减半。
+        </div>
+        <el-button>考核说明</el-button>
+      </el-tooltip>
     </el-form>
 
     <!-- 操作工具栏 -->
@@ -360,7 +370,7 @@ export default {
       this.loading = true
       this.queryListParams.assessTitle = row.assessTitle
       this.queryListParams.staff = row.staff
-      this.queryListParams.todolistId=row.id
+      this.queryListParams.todolistId = row.id
       const id = row.id
       //获取待办数据
       getAssessTodolist(id).then(response => {
@@ -386,7 +396,7 @@ export default {
 
       this.queryListParams.staff = row.staff
       this.queryListParams.reviewer = row.reviewer
-      this.queryListParams.todolistId=row.id
+      this.queryListParams.todolistId = row.id
       const id = row.id
       //获取待办数据
       getAssessTodolist(id).then(response => {
@@ -411,9 +421,9 @@ export default {
     handleDecider(row) {
       this.loading = true
       this.queryListParams.assessTitle = row.assessTitle
-        this.queryListParams.todolistId=row.id
-        this.queryListParams.staff = row.staff
-        this.queryListParams.decider = row.decider
+      this.queryListParams.todolistId = row.id
+      this.queryListParams.staff = row.staff
+      this.queryListParams.decider = row.decider
       const id = row.id
       //获取待办数据
       getAssessTodolist(id).then(response => {
