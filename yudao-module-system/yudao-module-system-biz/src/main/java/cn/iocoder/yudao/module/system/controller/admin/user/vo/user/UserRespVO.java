@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Schema(description = "管理后台 - 用户信息 Response VO")
@@ -28,4 +29,6 @@ public class UserRespVO extends UserBaseVO {
     @Schema(description = "创建时间", required = true, example = "时间戳格式")
     private LocalDateTime createTime;
 
+    @Schema(description = "岗位编号数组", example = "1")
+    private Set<Long> postIds;
 }

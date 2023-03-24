@@ -2,11 +2,9 @@
   <div class="app-container">
     <!-- 搜索工作栏 -->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="考核指标" prop="title">
-        <el-input v-model="queryParams.title" placeholder="请输入考核指标" clearable @keyup.enter.native="handleQuery"/>
-      </el-form-item>
+
       <el-form-item label="岗位" prop="standard">
-        <el-select v-model="queryParams.postId" clearable  placeholder="请选择">
+        <el-select v-model="queryParams.postId" clearable  @change="selectPostChang()" placeholder="请选择">
           <el-option
             v-for="item in postOptions"
             :key="item.id"
@@ -15,10 +13,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="考核分值" prop="standard">
-        <el-input v-model="queryParams.score" placeholder="请输入考核分值" clearable
-                  @keyup.enter.native="handleQuery"/>
-      </el-form-item>
+
       <el-form-item label="指标状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择指标状态" clearable size="small">
           <el-option v-for="dict in this.getDictDatas(DICT_TYPE.COMMON_STATUS)"
@@ -59,7 +54,7 @@
     </el-row>
 
     <!-- 列表 -->
-    <el-table v-loading="loading" :data="list">
+    <el-table show-summary :summary-method="getSummaries" v-loading="loading" :data="list">
       <el-table-column label="编号" align="center" type="index" min-width="8%"/>
       <el-table-column label="考核指标" min-width="30%" align="center" prop="title"/>
       <el-table-column label="考核标准" min-width="30%" align="center" prop="standard"/>
@@ -188,11 +183,11 @@ export default {
       // 查询参数
       queryParams: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 20,
         title: null,
         standard: null,
         status: null,
-        fixed: undefined,
+        fixed: '0',
         createTime: []
       },
       // 表单参数
@@ -214,6 +209,39 @@ export default {
     this.getTreeselect()
   },
   methods: {
+    selectPostChang(){
+      this.getList()
+    },
+    getSummaries(param) {
+      const {columns, data} = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 1) {
+          sums[index] = '总计'
+          return
+        }
+        if (index === 4 || index === 5 || index === 6 ) {
+          sums[index] = ''
+          return
+        }
+
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ' 分'
+        } else {
+          sums[index] = ''
+        }
+      })
+      return sums
+    },
     selectChang(postId) {
       if (postId == 0) {
         this.form.fixed = 0

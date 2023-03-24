@@ -308,7 +308,7 @@ export default {
       // 执行查询
       getAssessTodolistPage(this.queryParams).then(response => {
         const roles = store.getters.roles
-        if (roles.includes("super_admin")) {
+        if (roles.includes("super_admin","director")) {
           this.list = response.data.list
         } else {
           // this.list = response.data.list

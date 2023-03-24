@@ -128,6 +128,15 @@ public class UserController {
         DeptDO dept = deptService.getDept(user.getDeptId());
         return success(UserConvert.INSTANCE.convert(user).setDept(UserConvert.INSTANCE.convert(dept)));
     }
+    @GetMapping("/getpostids")
+    @Operation(summary = "获得用户岗位")
+    @Parameter(name = "username", description = "用户名", required = true, example = "1024")
+    @PreAuthorize("@ss.hasPermission('kpi:assess-todolist:query')")
+    public CommonResult<List<UserPostRespVO>> getUserByUsername(@RequestParam("username") String username) {
+        List<AdminUserDO> user = userService.getUserListByNickname(username);
+        // 获得部门数据
+        return success(UserConvert.INSTANCE.convertList05(user));
+    }
 
     @GetMapping("/export")
     @Operation(summary = "导出用户")
@@ -188,5 +197,7 @@ public class UserController {
         List<UserImportExcelVO> list = ExcelUtils.read(file, UserImportExcelVO.class);
         return success(userService.importUserList(list, updateSupport));
     }
+
+
 
 }

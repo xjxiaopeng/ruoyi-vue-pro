@@ -25,8 +25,10 @@ public interface AssessStoreMapper extends BaseMapperX<AssessStoreDO> {
                 .eqIfPresent(AssessStoreDO::getRemark, reqVO.getRemark())
                 .eqIfPresent(AssessStoreDO::getPostId, reqVO.getPostId())
                 .eqIfPresent(AssessStoreDO::getStatus, reqVO.getStatus())
-                .eqIfPresent(AssessStoreDO::getFixed, reqVO.getFixed())
-                .orderByDesc(AssessStoreDO::getId));
+                .or()
+                .eq(AssessStoreDO::getFixed, reqVO.getFixed())
+                //.eqIfPresent(AssessStoreDO::getFixed, reqVO.getFixed())
+                .orderByAsc(AssessStoreDO::getId));
     }
 
     default List<AssessStoreDO> selectList(AssessStoreExportReqVO reqVO) {

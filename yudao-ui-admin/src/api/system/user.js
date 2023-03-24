@@ -9,7 +9,13 @@ export function listUser(query) {
     params: query
   })
 }
-
+export function listUserByUsername(query) {
+  return request({
+    url: '/system/user/getpostids',
+    method: 'get',
+    params: query
+  })
+}
 // 获取用户精简信息列表
 export function listSimpleUsers() {
   return request({
