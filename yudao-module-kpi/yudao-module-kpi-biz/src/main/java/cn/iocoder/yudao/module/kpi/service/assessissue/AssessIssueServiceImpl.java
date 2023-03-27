@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.kpi.service.assessissue;
 
+import cn.iocoder.yudao.module.system.dal.dataobject.dept.PostDO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,8 @@ import cn.iocoder.yudao.module.kpi.dal.mysql.assessissue.AssessIssueMapper;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.kpi.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.POST_NAME_DUPLICATE;
+import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.POST_NOT_FOUND;
 
 /**
  * 考核发布 Service 实现类
@@ -29,13 +32,41 @@ public class AssessIssueServiceImpl implements AssessIssueService {
 
     @Override
     public Long createAssessIssue(AssessIssueCreateReqVO createReqVO) {
+        // 校验正确性
+        validateAssessForCreateOrUpdate(null, createReqVO.getAssessTitle());
         // 插入
         AssessIssueDO assessIssue = AssessIssueConvert.INSTANCE.convert(createReqVO);
         assessIssueMapper.insert(assessIssue);
         // 返回
         return assessIssue.getId();
     }
-
+    private void validateAssessForCreateOrUpdate(Long id, String name) {
+        // 校验自己存在
+        validateAssessExists(id);
+        // 校验考核名的唯一性
+        validateAssessNameUnique(id, name);
+    }
+    private void validateAssessExists(Long id) {
+        if (id == null) {
+            return;
+        }
+        if (assessIssueMapper.selectById(id) == null) {
+            throw exception(POST_NOT_FOUND);
+        }
+    }
+    private void validateAssessNameUnique(Long id, String name) {
+        AssessIssueDO AssessIssue = assessIssueMapper.selectByName(name);
+        if (AssessIssue == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的考核名称
+        if (id == null) {
+            throw exception(ASSESS_NAME_DUPLICATE);
+        }
+        if (!AssessIssue.getId().equals(id)) {
+            throw exception(ASSESS_NAME_DUPLICATE);
+        }
+    }
     @Override
     public void updateAssessIssue(AssessIssueUpdateReqVO updateReqVO) {
         // 校验存在

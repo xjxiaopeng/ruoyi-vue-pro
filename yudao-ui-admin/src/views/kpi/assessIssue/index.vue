@@ -269,7 +269,9 @@ export default {
     this.getList()
     // 获得用户列表
     listSimpleUsers().then(response => {
-      this.users = response.data;
+      this.users = response.data.filter(item=>item.nickname!=='肖鹏');
+      console.log(response.data)
+      console.log(this.users)
     });
     this.getTreeselect()
   },
