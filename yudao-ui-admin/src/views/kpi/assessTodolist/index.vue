@@ -92,6 +92,11 @@
       </el-table-column>
     </el-table>
 
+    <!-- 分页组件 -->
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNo" :limit.sync="queryParams.pageSize"
+                @pagination="getList"
+    />
+
     <el-dialog :title="title" :visible.sync="open" width="96%" top="5vh" append-to-body>
       <el-table v-loading="loading" :data="assessStaffItemList" show-summary :summary-method="getSummaries"
                 :max-height="tableHeight" style="width: 100%"
@@ -213,7 +218,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 50,
         assessTitle: null
       },
       // 评分值班表查询参数
@@ -308,7 +313,7 @@ export default {
       // 执行查询
       getAssessTodolistPage(this.queryParams).then(response => {
         const roles = store.getters.roles
-        if (roles.includes("super_admin","director")) {
+        if (roles.includes("super_admin")) {
           this.list = response.data.list
         } else {
           // this.list = response.data.list

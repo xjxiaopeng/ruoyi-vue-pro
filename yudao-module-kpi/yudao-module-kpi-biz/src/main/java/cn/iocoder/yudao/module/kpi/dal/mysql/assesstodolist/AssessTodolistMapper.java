@@ -20,7 +20,7 @@ public interface AssessTodolistMapper extends BaseMapperX<AssessTodolistDO> {
     default PageResult<AssessTodolistDO> selectPage(AssessTodolistPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<AssessTodolistDO>()
                 .eqIfPresent(AssessTodolistDO::getIssueId, reqVO.getIssueId())
-                .eqIfPresent(AssessTodolistDO::getAssessTitle, reqVO.getAssessTitle())
+                .likeIfPresent(AssessTodolistDO::getAssessTitle, reqVO.getAssessTitle())
                 .eqIfPresent(AssessTodolistDO::getStaff, reqVO.getStaff())
                 .betweenIfPresent(AssessTodolistDO::getStaffTime, reqVO.getStaffTime())
                 .eqIfPresent(AssessTodolistDO::getStaffStatus, reqVO.getStaffStatus())

@@ -14,24 +14,6 @@
       </el-form-item>
     </el-form>
 
-    <!-- 操作工具栏 -->
-    <!--    <el-row :gutter="10" class="mb8">-->
-    <!--      <el-col :span="1.5">-->
-    <!--        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"-->
-    <!--                   v-hasPermi="['kpi:assess-todolist:create']"-->
-    <!--        >新增-->
-    <!--        </el-button>-->
-    <!--      </el-col>-->
-    <!--      <el-col :span="1.5">-->
-    <!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"-->
-    <!--                   :loading="exportLoading"-->
-    <!--                   v-hasPermi="['kpi:assess-todolist:export']"-->
-    <!--        >导出-->
-    <!--        </el-button>-->
-    <!--      </el-col>-->
-    <!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
-    <!--    </el-row>-->
-
     <!-- 列表 -->
     <el-table v-loading="loading" :data="list">
       <el-table-column label="编号" type="index" align="center" prop="id"/>
@@ -58,21 +40,6 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template v-slot="scope">
-          <el-button v-if="scope.row.status===1" size="mini" type="text"
-                     icon="el-icon-edit" @click="handleStaff(scope.row)"
-                     v-hasPermi="['kpi:assess-todolist:update']"
-          >自评
-          </el-button>
-          <el-button v-if="scope.row.status==2" size="mini" type="text"
-                     icon="el-icon-edit" @click="handleReviewer(scope.row)"
-                     v-hasPermi="['kpi:assess-todolist:delete']"
-          >考评
-          </el-button>
-          <el-button v-if="scope.row.status==3" size="mini" type="text"
-                     icon="el-icon-edit" @click="handleDecider(scope.row)"
-                     v-hasPermi="['kpi:assess-todolist:delete']"
-          >终评
-          </el-button>
           <el-button v-if="scope.row.status==4" size="mini" type="text"
                      icon="el-icon-document" @click="detailsView(scope.row)"
                      v-hasPermi="['kpi:assess-todolist:delete']"
@@ -82,82 +49,36 @@
       </el-table-column>
     </el-table>
 
+    <!-- 分页组件 -->
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNo" :limit.sync="queryParams.pageSize"
+                @pagination="getList"
+    />
+
     <el-dialog :title="title" :visible.sync="open" width="96%" top="5vh" append-to-body>
       <el-table v-loading="loading" :data="assessStaffItemList" show-summary :summary-method="getSummaries"
                 :max-height="tableHeight" style="width: 100%"
       >
         <el-table-column label="编号" min-width="50" type="index" align="center" fixed prop="id"/>
-
         <el-table-column label="考核名称" min-width="100" align="center" fixed prop="assessTitle"/>
         <el-table-column label="考核指标" min-width="400" align="center" prop="title"/>
         <el-table-column label="考核标准" min-width="400" align="center" prop="standard"/>
         <el-table-column label="考核分值" min-width="100" align="center" prop="score"/>
-        <el-table-column v-if="status===1 || status===2 || status===3 || status===4" min-width="80" label="自评人"
-                         align="center"
-                         prop="staff"
-        />
-        <el-table-column v-if="status===2 || status===3 || status===4" min-width="100" label="自评分值" align="center"
-                         prop="staffScore"
-        />
-        <el-table-column v-if="status===1" min-width="100" label="自评分值" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.staffScore" min="0" max="scope.row.staffScore"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="status===2 || status===3 || status===4" min-width="120" label="自评备注" align="center"
-                         prop="staffRemark"
-        />
-
-        <el-table-column v-if="status===1" min-width="120" label="自评备注" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.staffRemark" type="textarea"></el-input>
-          </template>
-        </el-table-column>
-
-        <el-table-column v-if="status===2 || status===3 || status===4" min-width="80" label="考评人" align="center"
-                         prop="reviewer"
-        />
-        <el-table-column v-if="status===3 || status===4" min-width="100" label="考评分值" align="center"
-                         prop="reviewerScore"
-        />
-        <el-table-column v-if="status===2" min-width="100" label="考评分值" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.reviewerScore"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="status===3 || status===4" min-width="120" label="考评备注" align="center"
-                         prop="reviewerRemark"
-        />
-        <el-table-column v-if="status===2" min-width="120" label="考评备注" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.reviewerRemark" type="textarea"></el-input>
-          </template>
-        </el-table-column>
-
-        <el-table-column v-if="status===3 || status===4" min-width="80" label="终评人" align="center" prop="decider"/>
-        <el-table-column v-if="status===4" min-width="100" label="终评分值" align="center" prop="deciderScore"/>
-        <el-table-column v-if="status===3" min-width="100" label="终评分值" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.deciderScore"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="status===4" min-width="120" label="终评备注" align="center" prop="deciderRemark"/>
-        <el-table-column v-if="status===3" min-width="120" label="终评备注" align="center">
-          <template v-slot="scope">
-            <el-input v-model="scope.row.deciderRemark" type="textarea"></el-input>
-          </template>
-        </el-table-column>
-
+        <el-table-column label="自评人" min-width="80" align="center" prop="staff"/>
+        <el-table-column label="自评分值" min-width="100" align="center" prop="staffScore"/>
+        <el-table-column label="自评备注" min-width="120" align="center" prop="staffRemark"/>
+        <el-table-column label="考评人" min-width="80" align="center" prop="reviewer"/>
+        <el-table-column label="考评分值" min-width="100" align="center" prop="reviewerScore"/>
+        <el-table-column label="考评备注" min-width="120" align="center" prop="reviewerRemark"/>
+        <el-table-column label="终评人" min-width="80" align="center" prop="decider"/>
+        <el-table-column label="终评分值" min-width="100" align="center" prop="deciderScore"/>
+        <el-table-column label="终评备注" min-width="120" align="center" prop="deciderRemark"/>
       </el-table>
       <el-form label-width="100px">
         <el-form-item style="text-align: center;margin-left:-100px;margin-top:10px;">
           <el-button @click="cancel">返回</el-button>
         </el-form-item>
       </el-form>
-      <!--      <div slot="footer" class="dialog-footer">-->
-      <!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
-      <!--        <el-button @click="cancel">取 消</el-button>-->
-      <!--      </div>-->
+
     </el-dialog>
   </div>
 </template>
@@ -202,7 +123,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 50,
         assessTitle: null
       },
       // 评分值班表查询参数
@@ -294,24 +215,18 @@ export default {
       this.list = []
       this.loading = true
       // 执行查询
+      this.queryParams.status=4
+      console.log(this.queryParams)
       getAssessTodolistPage(this.queryParams).then(response => {
         const roles = store.getters.roles
-        if (roles.includes("super_admin")) {
+        console.log(roles)
+        if (roles.includes("super_admin") || roles.includes("director")) {
           this.list = response.data.list
         } else {
-          // this.list = response.data.list
           this.list = response.data.list.filter(item => item.staff === this.$store.getters.nickname)
-
-          // this.list = response.data.list.find(item => item.staff === this.$store.getters.nickname ||
-          //   item.reviewer === this.$store.getters.nickname ||
-          //   item.decider === this.$store.getters.nickname)
-
         }
         this.total = response.data.total
         this.loading = false
-        // console.log(this.list)
-        // console.log(this.$store.getters.nickname)
-        // console.log(roles[0])
       })
     },
 
@@ -431,22 +346,11 @@ export default {
         }
         this.status = row.status
       })
-
     },
 
     /** 考核结束查看明细 */
     detailsView(row) {
       this.loading = true
-      // this.queryListParams.assessTitle = row.assessTitle
-      //
-      // if (row.deciderStatus == 1) {
-      //   this.queryListParams.decider = row.decider
-      // }
-      // const id = row.id
-      // //获取待办数据
-      // getAssessTodolist(id).then(response => {
-      //   this.form = response.data
-      // })
       this.queryListParams.todolistId = row.id
       // 查询考核评分表
       getAssessStaffItemList(this.queryListParams).then(response => {
@@ -455,10 +359,8 @@ export default {
         this.loading = false
         this.open = true
         this.title = row.assessTitle + '明细'
-        this.status=4
-
+        this.status = 4
       })
-
     },
     /** 新增按钮操作 */
     handleAdd() {
