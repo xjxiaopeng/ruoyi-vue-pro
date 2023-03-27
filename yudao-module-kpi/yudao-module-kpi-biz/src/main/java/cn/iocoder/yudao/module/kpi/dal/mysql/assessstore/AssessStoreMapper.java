@@ -50,4 +50,13 @@ public interface AssessStoreMapper extends BaseMapperX<AssessStoreDO> {
                 .eq(AssessStoreDO::getFixed, fixed)
                 .orderByDesc(AssessStoreDO::getId));
     }
+
+    default List<AssessStoreDO> selectLists(AssessStoreListReqVO listReqVO) {
+        return selectList(new LambdaQueryWrapperX<AssessStoreDO>()
+                .eqIfPresent(AssessStoreDO::getStatus, listReqVO.getStatus())
+                .eqIfPresent(AssessStoreDO::getPostId, listReqVO.getPostId())
+                .or()
+                .eq(AssessStoreDO::getFixed, listReqVO.getFixed())
+                .orderByAsc(AssessStoreDO::getId));
+    }
 }

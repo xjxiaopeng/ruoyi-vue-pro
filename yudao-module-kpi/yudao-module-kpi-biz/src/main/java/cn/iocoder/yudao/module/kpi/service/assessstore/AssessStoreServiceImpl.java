@@ -70,6 +70,10 @@ public class AssessStoreServiceImpl implements AssessStoreService {
     }
 
     @Override
+    public List<AssessStoreDO> getAssessStoreLists(AssessStoreListReqVO listReqVO) {
+        return assessStoreMapper.selectLists(listReqVO);
+    }
+    @Override
     public PageResult<AssessStoreDO> getAssessStorePage(AssessStorePageReqVO pageReqVO) {
         return assessStoreMapper.selectPage(pageReqVO);
     }

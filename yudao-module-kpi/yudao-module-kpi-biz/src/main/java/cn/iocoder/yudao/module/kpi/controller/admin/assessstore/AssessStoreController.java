@@ -79,6 +79,14 @@ public class AssessStoreController {
         return success(AssessStoreConvert.INSTANCE.convertList(list));
     }
 
+    @GetMapping("/storelist")
+    @Operation(summary = "获得考核指标库列表")
+    @PreAuthorize("@ss.hasPermission('kpi:assess-store:query')")
+    public CommonResult<List<AssessStoreRespVO>> getAssessStoreLists(@Valid AssessStoreListReqVO listReqVO) {
+        List<AssessStoreDO> list = assessStoreService.getAssessStoreLists(listReqVO);
+        return success(AssessStoreConvert.INSTANCE.convertList(list));
+    }
+
     @GetMapping("/page")
     @Operation(summary = "获得考核指标库分页")
     @PreAuthorize("@ss.hasPermission('kpi:assess-store:query')")

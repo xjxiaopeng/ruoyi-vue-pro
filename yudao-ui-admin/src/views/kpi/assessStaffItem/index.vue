@@ -74,7 +74,7 @@
           >终评
           </el-button>
           <el-button v-if="scope.row.status==4" size="mini" type="text"
-                     icon="el-icon-document" @click="handleDecider(scope.row)"
+                     icon="el-icon-document" @click="detailsView(scope.row)"
                      v-hasPermi="['kpi:assess-todolist:delete']"
           >考核结束查看明细
           </el-button>
@@ -151,7 +151,6 @@
       </el-table>
       <el-form label-width="100px">
         <el-form-item style="text-align: center;margin-left:-100px;margin-top:10px;">
-          <el-button v-if="status!==4" type="primary" @click="submitForm()">提交</el-button>
           <el-button @click="cancel">返回</el-button>
         </el-form-item>
       </el-form>
@@ -171,8 +170,8 @@ import {
   getAssessTodolistPage,
   updateAssessTodolist
 } from '@/api/kpi/assessTodolist'
-import { mapGetters } from 'vuex'
-import { getAssessStaffItemList, updateAssessStaffItem } from '@/api/kpi/assessStaffItem'
+import {mapGetters} from 'vuex'
+import {getAssessStaffItemList, updateAssessStaffItem} from '@/api/kpi/assessStaffItem'
 import store from '@/store'
 
 export default {
@@ -236,17 +235,17 @@ export default {
       },
       // 表单校验
       rules: {
-        issueId: [{ required: true, message: '考核发布ID不能为空', trigger: 'blur' }],
-        assessTitle: [{ required: true, message: '考核名称不能为空', trigger: 'blur' }],
-        staffTime: [{ required: true, message: '自评日期不能为空', trigger: 'blur' }],
-        staffStatus: [{ required: true, message: '自评状态（1未完成 0已完成）不能为空', trigger: 'blur' }],
-        reviewerTime: [{ required: true, message: '考评日期不能为空', trigger: 'blur' }],
-        reviewerStatus: [{ required: true, message: '考评状态（1未完成 0已完成）不能为空', trigger: 'blur' }],
-        deciderTime: [{ required: true, message: '终评日期不能为空', trigger: 'blur' }],
-        deciderStatus: [{ required: true, message: '终评状态（1未完成 0已完成）不能为空', trigger: 'blur' }],
-        assessStartTime: [{ required: true, message: '考核开始时间不能为空', trigger: 'blur' }],
-        assessEndTime: [{ required: true, message: '考核结束时间不能为空', trigger: 'blur' }],
-        status: [{ required: true, message: '待办状态（1未完成 0已完成）不能为空', trigger: 'blur' }]
+        issueId: [{required: true, message: '考核发布ID不能为空', trigger: 'blur'}],
+        assessTitle: [{required: true, message: '考核名称不能为空', trigger: 'blur'}],
+        staffTime: [{required: true, message: '自评日期不能为空', trigger: 'blur'}],
+        staffStatus: [{required: true, message: '自评状态（1未完成 0已完成）不能为空', trigger: 'blur'}],
+        reviewerTime: [{required: true, message: '考评日期不能为空', trigger: 'blur'}],
+        reviewerStatus: [{required: true, message: '考评状态（1未完成 0已完成）不能为空', trigger: 'blur'}],
+        deciderTime: [{required: true, message: '终评日期不能为空', trigger: 'blur'}],
+        deciderStatus: [{required: true, message: '终评状态（1未完成 0已完成）不能为空', trigger: 'blur'}],
+        assessStartTime: [{required: true, message: '考核开始时间不能为空', trigger: 'blur'}],
+        assessEndTime: [{required: true, message: '考核结束时间不能为空', trigger: 'blur'}],
+        status: [{required: true, message: '待办状态（1未完成 0已完成）不能为空', trigger: 'blur'}]
       }
     }
   },
@@ -261,7 +260,7 @@ export default {
   },
   methods: {
     getSummaries(param) {
-      const { columns, data } = param
+      const {columns, data} = param
       const sums = []
       columns.forEach((column, index) => {
         if (index === 1) {
@@ -292,22 +291,27 @@ export default {
     },
     /** 查询列表 猎取待办*/
     getList() {
+      this.list = []
       this.loading = true
       // 执行查询
       getAssessTodolistPage(this.queryParams).then(response => {
         const roles = store.getters.roles
-        if (roles.includes("super_admin"))
-        {
+        if (roles.includes("super_admin")) {
           this.list = response.data.list
         } else {
-          this.list = response.data.list.find(item => item.staff === this.$store.getters.nickname ||
-            item.reviewer === this.$store.getters.nickname ||
-            item.decider === this.$store.getters.nickname)
+          // this.list = response.data.list
+          this.list = response.data.list.filter(item => item.staff === this.$store.getters.nickname)
+
+          // this.list = response.data.list.find(item => item.staff === this.$store.getters.nickname ||
+          //   item.reviewer === this.$store.getters.nickname ||
+          //   item.decider === this.$store.getters.nickname)
+
         }
         this.total = response.data.total
         this.loading = false
-        console.log(roles)
-        console.log(roles[0])
+        // console.log(this.list)
+        // console.log(this.$store.getters.nickname)
+        // console.log(roles[0])
       })
     },
 
@@ -430,6 +434,32 @@ export default {
 
     },
 
+    /** 考核结束查看明细 */
+    detailsView(row) {
+      this.loading = true
+      // this.queryListParams.assessTitle = row.assessTitle
+      //
+      // if (row.deciderStatus == 1) {
+      //   this.queryListParams.decider = row.decider
+      // }
+      // const id = row.id
+      // //获取待办数据
+      // getAssessTodolist(id).then(response => {
+      //   this.form = response.data
+      // })
+      this.queryListParams.todolistId = row.id
+      // 查询考核评分表
+      getAssessStaffItemList(this.queryListParams).then(response => {
+        this.assessStaffItemList = response.data
+        this.total = response.data.total
+        this.loading = false
+        this.open = true
+        this.title = row.assessTitle + '明细'
+        this.status=4
+
+      })
+
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
@@ -508,7 +538,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const id = row.id
-      this.$modal.confirm('是否确认删除考核待办编号为"' + id + '"的数据项?').then(function() {
+      this.$modal.confirm('是否确认删除考核待办编号为"' + id + '"的数据项?').then(function () {
         return deleteAssessTodolist(id)
       }).then(() => {
         this.getList()
@@ -520,7 +550,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       // 处理查询参数
-      let params = { ...this.queryParams }
+      let params = {...this.queryParams}
       params.pageNo = undefined
       params.pageSize = undefined
       this.$modal.confirm('是否确认导出所有考核待办数据项?').then(() => {

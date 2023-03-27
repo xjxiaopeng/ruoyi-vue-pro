@@ -24,6 +24,7 @@
         <!-- 示例项目 -->
         <module>yudao-example</module>
         <module>yudao-module-kpi</module>
+        <module>yudao-module-hr</module>
     </modules>
 
     <name>${project.artifactId}</name>

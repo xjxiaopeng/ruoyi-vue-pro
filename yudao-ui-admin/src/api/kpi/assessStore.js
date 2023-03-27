@@ -43,6 +43,14 @@ export function getAssessStorePage(query) {
   })
 }
 
+export function getAssessStoreListS(query) {
+  return request({
+    url: '/kpi/assess-store/storelist',
+    method: 'get',
+    params: query
+  })
+}
+
 // 导出考核指标库 Excel
 export function exportAssessStoreExcel(query) {
   return request({

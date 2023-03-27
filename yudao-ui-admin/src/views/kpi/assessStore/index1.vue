@@ -45,81 +45,17 @@
           {{ scope.row.postId == 0 ? '所有岗位' : getPostname(scope.row.postId) }}
         </template>
       </el-table-column>
-      <el-table-column label="指标状态" min-width="8%" align="center" prop="status">
-        <template v-slot="scope">
-          <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="全员指标" min-width="8%" align="center" prop="fixed">
-        <template v-slot="scope">
-          <span>{{ scope.row.fixed == 0 ? '是' : '否' }}</span>
-        </template>
-      </el-table-column>
-
-<!--      <el-table-column label="操作" min-width="10%" align="center" class-name="small-padding fixed-width">-->
+<!--      <el-table-column label="指标状态" min-width="8%" align="center" prop="status">-->
 <!--        <template v-slot="scope">-->
-<!--          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"-->
-<!--                     v-hasPermi="['kpi:assess-store:update']">修改-->
-<!--          </el-button>-->
-<!--          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"-->
-<!--                     v-hasPermi="['kpi:assess-store:delete']">删除-->
-<!--          </el-button>-->
+<!--          <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="全员指标" min-width="8%" align="center" prop="fixed">-->
+<!--        <template v-slot="scope">-->
+<!--          <span>{{ scope.row.fixed == 0 ? '是' : '否' }}</span>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
     </el-table>
-    <!-- 分页组件 -->
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNo" :limit.sync="queryParams.pageSize"
-                @pagination="getList"
-    />
-
-    <!-- 对话框(添加 / 修改) -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" v-dialogDrag append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="考核指标" prop="title">
-          <el-input v-model="form.title" type="textarea" autosize placeholder="请输入考核指标"/>
-        </el-form-item>
-        <el-form-item label="考核标准" prop="standard">
-          <el-input v-model="form.standard" type="textarea" autosize placeholder="请输入考核标准"/>
-        </el-form-item>
-        <el-form-item label="考核分值" prop="score">
-          <el-input v-model="form.score" placeholder="请输入考核分值"/>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注"/>
-        </el-form-item>
-
-        <el-form-item label="岗位">
-          <el-select v-model="form.postId" placeholder="请选择" @change="selectChang(form.postId)">
-            <el-option
-              v-for="item in postOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="指标状态" prop="status">
-          <el-radio-group v-model="form.status">
-
-            <el-radio v-for="dict in statusDictDatas" :key="parseInt(dict.value)" :label="parseInt(dict.value)">
-              {{ dict.label }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="全员指标" prop="fixed">
-          <el-radio-group v-model="form.fixed" @change="radioChange">
-            <el-radio :key="0" :label="0">是</el-radio>
-            <el-radio :key="1" :label="1">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -129,7 +65,7 @@ import {
   deleteAssessStore,
   exportAssessStoreExcel,
   getAssessStore,
-  getAssessStorePage,
+  getAssessStoreListS,
   updateAssessStore
 } from '@/api/kpi/assessStore'
 import {DICT_TYPE, getDictDatas} from '@/utils/dict'
@@ -166,14 +102,9 @@ export default {
       postOptions: [],
       // 查询参数
       queryParams: {
-        pageNo: 1,
-        pageSize: 20,
-        title: null,
-        standard: null,
-        status: null,
-        fixed: undefined,
+        status: 0,
+        fixed: 0,
         postId: undefined,
-        createTime: []
       },
 
       postQueryParams: {
@@ -210,7 +141,7 @@ export default {
           sums[index] = '总计'
           return
         }
-        if (index === 4 || index === 5 || index === 6 ) {
+        if (index === 4 || index === 5 || index === 6) {
           sums[index] = ''
           return
         }
@@ -278,7 +209,7 @@ export default {
       // console.log(params.username)
       listUserByUsername(params).then(response => {
         this.listUser = response.data
-        console.log("this.listUserpost", this.listUser)
+        // console.log("this.listUserpost", this.listUser)
         this.getList()
       })
     },
@@ -286,18 +217,17 @@ export default {
     getList() {
       this.loading = true
       // 执行查询
-      // console.log(this.listUser[0].postIds[0])
-      this.queryParams.fixed = 0
+
       this.queryParams.postId = this.listUser[0].postIds[0]
-      getAssessStorePage(this.queryParams).then(response => {
+      getAssessStoreListS(this.queryParams).then(response => {
         // this.list = response.data.list
         // console.log("this.listUser",this.listUser)
         // console.log("this.list",this.list)
         // this.list = response.data.list.filter(item=>item.postId.includes(this.listUser.postIds))
-        this.list = response.data.list
-        this.total = response.data.total
+        this.list = response.data
+        // this.total = response.data.total
         this.loading = false
-        console.log("this.list", this.list)
+        // console.log("this.list", this.list)
       })
     },
     /** 取消按钮 */

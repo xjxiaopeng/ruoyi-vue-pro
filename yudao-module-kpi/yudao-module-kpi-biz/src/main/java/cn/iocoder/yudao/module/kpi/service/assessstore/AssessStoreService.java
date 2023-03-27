@@ -51,6 +51,8 @@ public interface AssessStoreService {
      */
     List<AssessStoreDO> getAssessStoreList(Collection<Long> ids);
 
+    List<AssessStoreDO> getAssessStoreLists(AssessStoreListReqVO listReqVO);
+
     /**
      * 获得考核指标库分页
      *

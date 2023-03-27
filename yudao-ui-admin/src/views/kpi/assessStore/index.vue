@@ -4,7 +4,7 @@
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="岗位" prop="standard">
-        <el-select v-model="queryParams.postId" clearable  @change="selectPostChang()" placeholder="请选择">
+        <el-select v-model="queryParams.postId" clearable @change="selectPostChang()" placeholder="请选择">
           <el-option
             v-for="item in postOptions"
             :key="item.id"
@@ -14,16 +14,18 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="指标状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择指标状态" clearable size="small">
-          <el-option v-for="dict in this.getDictDatas(DICT_TYPE.COMMON_STATUS)"
+
+      <el-form-item label="全员指标" prop="fixed">
+        <el-select v-model="queryParams.fixed" placeholder="请选择是否全员指标" clearable size="small">
+          <el-option v-for="dict in this.getDictDatas(DICT_TYPE.KPI_ASSESS_FIXED)"
                      :key="dict.value" :label="dict.label" :value="dict.value"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="全员指标" prop="fixed">
-        <el-select v-model="queryParams.fixed" placeholder="请选择是否全员指标" clearable size="small">
-          <el-option v-for="dict in this.getDictDatas(DICT_TYPE.KPI_ASSESS_FIXED)"
+
+      <el-form-item label="指标状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择指标状态" clearable size="small">
+          <el-option v-for="dict in this.getDictDatas(DICT_TYPE.COMMON_STATUS)"
                      :key="dict.value" :label="dict.label" :value="dict.value"
           />
         </el-select>
@@ -78,9 +80,11 @@
       <el-table-column label="操作" min-width="10%" align="center" class-name="small-padding fixed-width">
         <template v-slot="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-                     v-hasPermi="['kpi:assess-store:update']">修改</el-button>
+                     v-hasPermi="['kpi:assess-store:update']">修改
+          </el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-                     v-hasPermi="['kpi:assess-store:delete']">删除</el-button>
+                     v-hasPermi="['kpi:assess-store:delete']">删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -143,15 +147,14 @@
 <script>
 import {
   createAssessStore,
-  updateAssessStore,
   deleteAssessStore,
+  exportAssessStoreExcel,
   getAssessStore,
   getAssessStorePage,
-  exportAssessStoreExcel
+  updateAssessStore
 } from '@/api/kpi/assessStore'
-import { DICT_TYPE, getDictDatas } from '@/utils/dict'
-import { listSimpleDepts } from '@/api/system/dept'
-import { listSimplePosts } from '@/api/system/post'
+import {DICT_TYPE, getDictDatas} from '@/utils/dict'
+import {listSimplePosts} from '@/api/system/post'
 
 export default {
   name: 'AssessStore',
@@ -183,10 +186,11 @@ export default {
       // 查询参数
       queryParams: {
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 50,
         title: null,
         standard: null,
         status: null,
+        postId: null,
         fixed: '0',
         createTime: []
       },
@@ -194,22 +198,22 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        title: [{ required: true, message: '考核指标不能为空', trigger: 'blur' }],
-        standard: [{ required: true, message: '考核标准不能为空', trigger: 'blur' }],
-        score: [{ required: true, message: '考核分值不能为空', trigger: 'blur' }],
-        status: [{ required: true, message: '指标状态不能为空', trigger: 'change' }],
-        fixed: [{ required: true, message: '全员指标', trigger: 'blur' }]
+        title: [{required: true, message: '考核指标不能为空', trigger: 'blur'}],
+        standard: [{required: true, message: '考核标准不能为空', trigger: 'blur'}],
+        score: [{required: true, message: '考核分值不能为空', trigger: 'blur'}],
+        status: [{required: true, message: '指标状态不能为空', trigger: 'change'}],
+        fixed: [{required: true, message: '全员指标', trigger: 'blur'}]
       },
       // 数据字典
       statusDictDatas: getDictDatas(DICT_TYPE.COMMON_STATUS)
     }
   },
   created() {
-    this.getList()
     this.getTreeselect()
+
   },
   methods: {
-    selectPostChang(){
+    selectPostChang() {
       this.getList()
     },
     getSummaries(param) {
@@ -220,7 +224,7 @@ export default {
           sums[index] = '总计'
           return
         }
-        if (index === 4 || index === 5 || index === 6 ) {
+        if (index === 4 || index === 5 || index === 6) {
           sums[index] = ''
           return
         }
@@ -245,9 +249,8 @@ export default {
     selectChang(postId) {
       if (postId == 0) {
         this.form.fixed = 0
-      }
-      else {
-        this.form.fixed=1
+      } else {
+        this.form.fixed = 1
       }
     },
     /* 全员指标按钮发生变化时 */
@@ -271,10 +274,17 @@ export default {
       listSimplePosts().then(response => {
         // 处理 postOptions 参数
         this.postOptions = []
-        this.postOptions.push({ id: 0, name: '所有岗位' })
+        this.postOptions.push({id: 0, name: '所有岗位'})
         this.postOptions.push(...response.data)
+        for (const post of this.postOptions) {
+          if (post.name === '会计') {
+            this.queryParams.postId=post.id
+          }
+        }
+        this.getList()
       })
     },
+    /*根据岗位Id返回岗位名称*/
     getPostname(postId) {
       for (const post of this.postOptions) {
         if (post.id === postId) {
@@ -368,7 +378,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const id = row.id
-      this.$modal.confirm('是否确认删除考核指标库编号为"' + id + '"的数据项?').then(function() {
+      this.$modal.confirm('是否确认删除考核指标库编号为"' + id + '"的数据项?').then(function () {
         return deleteAssessStore(id)
       }).then(() => {
         this.getList()
@@ -379,7 +389,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       // 处理查询参数
-      let params = { ...this.queryParams }
+      let params = {...this.queryParams}
       params.pageNo = undefined
       params.pageSize = undefined
       this.$modal.confirm('是否确认导出所有考核指标库数据项?').then(() => {

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL
+ Source Server         : 43.154.82.233
  Source Server Type    : MySQL
  Source Server Version : 50726 (5.7.26)
- Source Host           : localhost:3306
+ Source Host           : 43.154.82.233:3306
  Source Schema         : ruoyi-vue-pro3
 
  Target Server Type    : MySQL
  Target Server Version : 50726 (5.7.26)
  File Encoding         : 65001
 
- Date: 21/03/2023 23:06:56
+ Date: 26/03/2023 00:06:15
 */
 
 SET NAMES utf8mb4;
@@ -42,7 +42,7 @@ CREATE TABLE `system_menu`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2187 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2195 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of system_menu
@@ -428,30 +428,38 @@ INSERT INTO `system_menu` VALUES (2158, '使用 HTTP 查询数据', 'report:go-v
 INSERT INTO `system_menu` VALUES (2159, 'Boot 开发文档', '', 1, 1, 0, 'https://doc.iocoder.cn/', 'education', NULL, NULL, 1, b'0', b'1', b'0', '1', '2023-02-10 22:46:28', '1', '2023-03-17 23:10:39', b'1');
 INSERT INTO `system_menu` VALUES (2160, 'Cloud 开发文档', '', 1, 2, 0, 'https://cloud.iocoder.cn', 'documentation', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-02-10 22:47:07', '1', '2023-03-17 23:10:58', b'1');
 INSERT INTO `system_menu` VALUES (2161, '绩效考核管理', '', 1, 1, 0, '/kpi', 'chart', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-17 12:00:58', '1', '2023-03-17 14:20:55', b'0');
-INSERT INTO `system_menu` VALUES (2162, '考核指标库管理', '', 2, 0, 2161, 'assess-store', 'list', 'kpi/assessStore/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '1', '2023-03-17 19:03:34', b'0');
+INSERT INTO `system_menu` VALUES (2162, '考核指标库管理', '', 2, 1, 2161, 'assess-store', 'list', 'kpi/assessStore/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '1', '2023-03-25 19:59:01', b'0');
 INSERT INTO `system_menu` VALUES (2163, '考核指标库查询', 'kpi:assess-store:query', 3, 1, 2162, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '', '2023-03-17 12:23:08', b'0');
 INSERT INTO `system_menu` VALUES (2164, '考核指标库创建', 'kpi:assess-store:create', 3, 2, 2162, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '', '2023-03-17 12:23:08', b'0');
 INSERT INTO `system_menu` VALUES (2165, '考核指标库更新', 'kpi:assess-store:update', 3, 3, 2162, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '', '2023-03-17 12:23:08', b'0');
 INSERT INTO `system_menu` VALUES (2166, '考核指标库删除', 'kpi:assess-store:delete', 3, 4, 2162, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '', '2023-03-17 12:23:08', b'0');
 INSERT INTO `system_menu` VALUES (2167, '考核指标库导出', 'kpi:assess-store:export', 3, 5, 2162, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 12:23:08', '', '2023-03-17 12:23:08', b'0');
-INSERT INTO `system_menu` VALUES (2168, '考核发布管理', '', 2, 0, 2161, 'assess-issue', 'guide', 'kpi/assessIssue/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '1', '2023-03-17 19:03:59', b'0');
+INSERT INTO `system_menu` VALUES (2168, '考核发布管理', '', 2, 2, 2161, 'assess-issue', 'guide', 'kpi/assessIssue/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '1', '2023-03-25 19:59:10', b'0');
 INSERT INTO `system_menu` VALUES (2169, '考核发布查询', 'kpi:assess-issue:query', 3, 1, 2168, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '', '2023-03-17 18:58:09', b'0');
 INSERT INTO `system_menu` VALUES (2170, '考核发布创建', 'kpi:assess-issue:create', 3, 2, 2168, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '', '2023-03-17 18:58:09', b'0');
 INSERT INTO `system_menu` VALUES (2171, '考核发布更新', 'kpi:assess-issue:update', 3, 3, 2168, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '', '2023-03-17 18:58:09', b'0');
 INSERT INTO `system_menu` VALUES (2172, '考核发布删除', 'kpi:assess-issue:delete', 3, 4, 2168, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '', '2023-03-17 18:58:09', b'0');
 INSERT INTO `system_menu` VALUES (2173, '考核发布导出', 'kpi:assess-issue:export', 3, 5, 2168, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 18:58:09', '', '2023-03-17 18:58:09', b'0');
-INSERT INTO `system_menu` VALUES (2174, '考核待办管理', '', 2, 0, 2161, 'assess-todolist', 'edit', 'kpi/assessTodolist/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '1', '2023-03-17 22:34:08', b'0');
+INSERT INTO `system_menu` VALUES (2174, '考核待办管理', '', 2, 3, 2161, 'assess-todolist', 'edit', 'kpi/assessTodolist/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '1', '2023-03-25 19:59:20', b'0');
 INSERT INTO `system_menu` VALUES (2175, '考核待办查询', 'kpi:assess-todolist:query', 3, 1, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2176, '考核待办创建', 'kpi:assess-todolist:create', 3, 2, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2177, '考核待办更新', 'kpi:assess-todolist:update', 3, 3, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2178, '考核待办删除', 'kpi:assess-todolist:delete', 3, 4, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2179, '考核待办导出', 'kpi:assess-todolist:export', 3, 5, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
-INSERT INTO `system_menu` VALUES (2180, '考核评分管理', '', 2, 0, 2161, 'assess-staff-item', 'list', 'kpi/assessStaffItem/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '1', '2023-03-17 22:35:23', b'0');
+INSERT INTO `system_menu` VALUES (2180, '考核评分管理', '', 2, 4, 2161, 'assess-staff-item', 'list', 'kpi/assessStaffItem/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '1', '2023-03-25 19:59:28', b'0');
 INSERT INTO `system_menu` VALUES (2181, '考核评分查询', 'kpi:assess-staff-item:query', 3, 1, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2182, '考核评分创建', 'kpi:assess-staff-item:create', 3, 2, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2183, '考核评分更新', 'kpi:assess-staff-item:update', 3, 3, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2184, '考核评分删除', 'kpi:assess-staff-item:delete', 3, 4, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2185, '考核评分导出', 'kpi:assess-staff-item:export', 3, 5, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
-INSERT INTO `system_menu` VALUES (2186, '考核汇总表', '', 2, 4, 2161, 'http://localhost:48080/jmreport/view/796891853532643328?token=a49f867c5b31401c87b19c0a4fb4cd6b', 'date-range', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-21 11:15:04', '1', '2023-03-21 11:16:30', b'0');
+INSERT INTO `system_menu` VALUES (2186, '考核汇总表', '', 2, 4, 2161, 'http://yingkesx.com:48080/jmreport/view/796891853532643328?token=bd649eded60f4431b27eccff16a2e5a8', 'date-range', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-21 11:15:04', '1', '2023-03-22 11:13:10', b'0');
+INSERT INTO `system_menu` VALUES (2187, '考核指标', 'kpi:assess-store:query', 2, 0, 2161, 'assessStore', 'eye', 'kpi/assessStore/index1', NULL, 0, b'1', b'1', b'1', '1', '2023-03-25 19:58:37', '1', '2023-03-25 19:58:37', b'0');
+INSERT INTO `system_menu` VALUES (2188, '人力资源管理', '', 1, 1, 0, '/hr', 'peoples', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-25 22:57:12', '1', '2023-03-25 22:57:12', b'0');
+INSERT INTO `system_menu` VALUES (2189, '工资基础管理', '', 2, 0, 2188, 'pay-sheet-base', '', 'hr/paySheetBase/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
+INSERT INTO `system_menu` VALUES (2190, '工资基础查询', 'hr:pay-sheet-base:query', 3, 1, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
+INSERT INTO `system_menu` VALUES (2191, '工资基础创建', 'hr:pay-sheet-base:create', 3, 2, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
+INSERT INTO `system_menu` VALUES (2192, '工资基础更新', 'hr:pay-sheet-base:update', 3, 3, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
+INSERT INTO `system_menu` VALUES (2193, '工资基础删除', 'hr:pay-sheet-base:delete', 3, 4, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:59', '', '2023-03-26 00:01:59', b'0');
+INSERT INTO `system_menu` VALUES (2194, '工资基础导出', 'hr:pay-sheet-base:export', 3, 5, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:59', '', '2023-03-26 00:01:59', b'0');
 
 SET FOREIGN_KEY_CHECKS = 1;
