@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 43.154.82.233
+ Source Server         : MySQL
  Source Server Type    : MySQL
  Source Server Version : 50726 (5.7.26)
- Source Host           : 43.154.82.233:3306
+ Source Host           : localhost:3306
  Source Schema         : ruoyi-vue-pro3
 
  Target Server Type    : MySQL
  Target Server Version : 50726 (5.7.26)
  File Encoding         : 65001
 
- Date: 26/03/2023 00:06:15
+ Date: 28/03/2023 12:02:55
 */
 
 SET NAMES utf8mb4;
@@ -446,7 +446,7 @@ INSERT INTO `system_menu` VALUES (2176, '考核待办创建', 'kpi:assess-todoli
 INSERT INTO `system_menu` VALUES (2177, '考核待办更新', 'kpi:assess-todolist:update', 3, 3, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2178, '考核待办删除', 'kpi:assess-todolist:delete', 3, 4, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
 INSERT INTO `system_menu` VALUES (2179, '考核待办导出', 'kpi:assess-todolist:export', 3, 5, 2174, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:03', '', '2023-03-17 22:06:03', b'0');
-INSERT INTO `system_menu` VALUES (2180, '考核评分管理', '', 2, 4, 2161, 'assess-staff-item', 'list', 'kpi/assessStaffItem/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '1', '2023-03-25 19:59:28', b'0');
+INSERT INTO `system_menu` VALUES (2180, '考核成绩查看', '', 2, 4, 2161, 'assess-staff-item', 'list', 'kpi/assessStaffItem/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '1', '2023-03-27 00:50:49', b'0');
 INSERT INTO `system_menu` VALUES (2181, '考核评分查询', 'kpi:assess-staff-item:query', 3, 1, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2182, '考核评分创建', 'kpi:assess-staff-item:create', 3, 2, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2183, '考核评分更新', 'kpi:assess-staff-item:update', 3, 3, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
@@ -454,8 +454,8 @@ INSERT INTO `system_menu` VALUES (2184, '考核评分删除', 'kpi:assess-staff-
 INSERT INTO `system_menu` VALUES (2185, '考核评分导出', 'kpi:assess-staff-item:export', 3, 5, 2180, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-17 22:06:26', '', '2023-03-17 22:06:26', b'0');
 INSERT INTO `system_menu` VALUES (2186, '考核汇总表', '', 2, 4, 2161, 'http://yingkesx.com:48080/jmreport/view/796891853532643328?token=bd649eded60f4431b27eccff16a2e5a8', 'date-range', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-21 11:15:04', '1', '2023-03-22 11:13:10', b'0');
 INSERT INTO `system_menu` VALUES (2187, '考核指标', 'kpi:assess-store:query', 2, 0, 2161, 'assessStore', 'eye', 'kpi/assessStore/index1', NULL, 0, b'1', b'1', b'1', '1', '2023-03-25 19:58:37', '1', '2023-03-25 19:58:37', b'0');
-INSERT INTO `system_menu` VALUES (2188, '人力资源管理', '', 1, 1, 0, '/hr', 'peoples', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-25 22:57:12', '1', '2023-03-25 22:57:12', b'0');
-INSERT INTO `system_menu` VALUES (2189, '工资基础管理', '', 2, 0, 2188, 'pay-sheet-base', '', 'hr/paySheetBase/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
+INSERT INTO `system_menu` VALUES (2188, '人力资源管理', '', 1, 1, 0, '/hr', 'peoples', NULL, NULL, 0, b'1', b'1', b'1', '1', '2023-03-25 22:57:12', '1', '2023-03-26 00:07:42', b'0');
+INSERT INTO `system_menu` VALUES (2189, '基础工资表', '', 2, 0, 2188, 'pay-sheet-base', 'build', 'hr/paySheetBase/index', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '1', '2023-03-26 00:17:42', b'0');
 INSERT INTO `system_menu` VALUES (2190, '工资基础查询', 'hr:pay-sheet-base:query', 3, 1, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
 INSERT INTO `system_menu` VALUES (2191, '工资基础创建', 'hr:pay-sheet-base:create', 3, 2, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');
 INSERT INTO `system_menu` VALUES (2192, '工资基础更新', 'hr:pay-sheet-base:update', 3, 3, 2189, '', '', '', NULL, 0, b'1', b'1', b'1', '', '2023-03-26 00:01:58', '', '2023-03-26 00:01:58', b'0');

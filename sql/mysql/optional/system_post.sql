@@ -11,7 +11,7 @@
  Target Server Version : 50726 (5.7.26)
  File Encoding         : 65001
 
- Date: 21/03/2023 23:15:18
+ Date: 28/03/2023 12:02:20
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `system_post`  (
 INSERT INTO `system_post` VALUES (1, 'ceo', '执行主任', 1, 0, '', 'admin', '2021-01-06 17:03:48', '1', '2023-02-12 00:25:52', b'0', 1);
 INSERT INTO `system_post` VALUES (2, 'kj', '会计', 2, 0, '', 'admin', '2021-01-05 17:03:48', '1', '2023-02-12 00:26:20', b'0', 1);
 INSERT INTO `system_post` VALUES (4, 'cn', '出纳', 4, 0, '111', 'admin', '2021-01-05 17:03:48', '1', '2023-02-12 00:26:53', b'0', 1);
-INSERT INTO `system_post` VALUES (5, 'rszg', '人事主管', 3, 0, NULL, '1', '2023-02-20 12:04:04', '1', '2023-02-20 12:04:33', b'0', 1);
+INSERT INTO `system_post` VALUES (5, 'rz', '人资', 3, 0, NULL, '1', '2023-02-20 12:04:04', '1', '2023-03-22 23:47:21', b'0', 1);
 INSERT INTO `system_post` VALUES (6, 'qt', '前台', 5, 0, NULL, '1', '2023-02-20 12:05:45', '1', '2023-02-20 12:05:45', b'0', 1);
 INSERT INTO `system_post` VALUES (7, 'fk', '风控', 6, 0, NULL, '1', '2023-02-20 12:06:26', '1', '2023-02-20 12:06:26', b'0', 1);
 INSERT INTO `system_post` VALUES (8, 'wx', '文宣', 7, 0, NULL, '1', '2023-02-20 12:07:20', '1', '2023-02-20 12:07:20', b'0', 1);

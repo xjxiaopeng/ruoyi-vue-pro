@@ -11,7 +11,7 @@
  Target Server Version : 50726 (5.7.26)
  File Encoding         : 65001
 
- Date: 22/03/2023 00:13:05
+ Date: 28/03/2023 15:07:58
 */
 
 SET NAMES utf8mb4;
@@ -38,12 +38,14 @@ CREATE TABLE `kpi_assess_issue`  (
   `tenant_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '租户编号',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_unique`(`update_time`, `tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '考核发布' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '考核发布' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kpi_assess_issue
 -- ----------------------------
-INSERT INTO `kpi_assess_issue` VALUES (4, '2023年02月考核', '[117,118]', '人事1', '刘明兰', '2023-02-16 00:00:00', '2023-02-23 00:00:00', 0, '1', '2023-02-16 13:30:26', '1', '2023-03-17 20:31:23', b'0', 1);
-INSERT INTO `kpi_assess_issue` VALUES (5, '2023年03月考核', '[117,118]', '人事1', '刘明兰', '2023-03-20 00:00:00', '2023-03-27 00:00:00', 0, '1', '2023-03-20 11:10:39', '1', '2023-03-20 11:20:43', b'0', 1);
+INSERT INTO `kpi_assess_issue` VALUES (4, '2023年02月考核', '[117,118]', '人事1', '刘明兰', '2023-02-16 00:00:00', '2023-02-23 00:00:00', 1, '1', '2023-02-16 13:30:26', '123', '2023-03-27 12:20:18', b'0', 1);
+INSERT INTO `kpi_assess_issue` VALUES (5, '2023年03月考核', '[117,118]', '人事1', '刘明兰', '2023-03-20 00:00:00', '2023-03-27 00:00:00', 1, '1', '2023-03-20 11:10:39', '123', '2023-03-27 12:20:16', b'0', 1);
+INSERT INTO `kpi_assess_issue` VALUES (6, '2023年03-1月考核', '[115,117,118,119]', '成丹娜', '刘明兰', '2023-03-28 00:00:00', '2023-04-04 00:00:00', 1, '123', '2023-03-28 11:11:48', '1', '2023-03-28 14:19:19', b'0', 1);
+INSERT INTO `kpi_assess_issue` VALUES (7, '2023年03-2月考核', '[115]', '成丹娜', '刘明兰', '2023-03-28 00:00:00', '2023-04-04 00:00:00', 0, '1', '2023-03-28 14:19:41', '1', '2023-03-28 14:19:48', b'0', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
