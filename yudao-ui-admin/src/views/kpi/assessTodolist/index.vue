@@ -384,7 +384,8 @@ export default {
       // 查询考核评分表
       getAssessStaffItemList(this.queryListParams).then(response => {
         this.assessStaffItemList = response.data
-        this.total = response.data.total
+        console.log(this.assessStaffItemList)
+        // this.total = response.data.total
         this.loading = false
         this.open = true
         if (row.status === 1) {
@@ -407,11 +408,11 @@ export default {
       getAssessTodolist(id).then(response => {
         this.form = response.data
       })
-      console.log(this.queryListParams)
+      // console.log(this.queryListParams)
       // 查询考核评分表
       getAssessStaffItemList(this.queryListParams).then(response => {
         this.assessStaffItemList = response.data
-        this.total = response.data.total
+        // this.total = response.data.total
         this.loading = false
         this.open = true
 
@@ -435,10 +436,10 @@ export default {
         this.form = response.data
       })
       // 查询考核评分表
-      console.log(this.queryListParams)
+      // console.log(this.queryListParams)
       getAssessStaffItemList(this.queryListParams).then(response => {
         this.assessStaffItemList = response.data
-        this.total = response.data.total
+        // this.total = response.data.total
         this.loading = false
         this.open = true
 
@@ -469,14 +470,18 @@ export default {
     /** 考核评分提交按钮 */
     async submitForm() {
       let tempStatus = 0
+      // let tempStaffScore=0
+
       for (let assessStaffItem of this.assessStaffItemList) {
         tempStatus = assessStaffItem.status
         // 修改考核评分表的评分状态
         if (tempStatus === 1) {
           assessStaffItem.staffTime = new Date(new Date().toLocaleString()).getTime()
           assessStaffItem.status = 2
-          //如果自评人和审核人是一个人，将考核评分表状态设置为终评
+          //如果自评人和考评人是一个人，将考核评分表状态设置为终评，将考评分设置为自评分
           if (assessStaffItem.staff === assessStaffItem.reviewer) {
+            assessStaffItem.reviewerTime=new Date(new Date().toLocaleString()).getTime()
+            assessStaffItem.reviewerScore=assessStaffItem.staffScore;
             assessStaffItem.status = 3
           }
         }
@@ -497,6 +502,7 @@ export default {
         //如果自评人和审核人是一个人，将考核待办表状态设置为终评
         if (this.form.staff === this.form.reviewer) {
           this.form.status = 3
+          this.form.reviewerTime=new Date(new Date().toLocaleString()).getTime()
           this.form.reviewerStatus = 0
         }
         this.form.staffTime = new Date(new Date().toLocaleString()).getTime()
