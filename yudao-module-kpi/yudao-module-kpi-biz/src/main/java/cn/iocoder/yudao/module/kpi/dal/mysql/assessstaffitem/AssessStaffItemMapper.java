@@ -6,6 +6,8 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
 import cn.iocoder.yudao.module.kpi.dal.dataobject.assessstaffitem.AssessStaffItemDO;
+import cn.iocoder.yudao.module.kpi.dal.dataobject.assesstodolist.AssessTodolistDO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 import cn.iocoder.yudao.module.kpi.controller.admin.assessstaffitem.vo.*;
 
@@ -16,6 +18,12 @@ import cn.iocoder.yudao.module.kpi.controller.admin.assessstaffitem.vo.*;
  */
 @Mapper
 public interface AssessStaffItemMapper extends BaseMapperX<AssessStaffItemDO> {
+
+
+    default void deleteByTitle(String title) {
+        delete(new LambdaQueryWrapperX<AssessStaffItemDO>()
+                .eq(AssessStaffItemDO::getAssessTitle, title));
+    }
 
     default PageResult<AssessStaffItemDO> selectPage(AssessStaffItemPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<AssessStaffItemDO>()
@@ -89,6 +97,16 @@ public interface AssessStaffItemMapper extends BaseMapperX<AssessStaffItemDO> {
                 .eqIfPresent(AssessStaffItemDO::getDeciderCompleteStatus, reqVO.getDeciderCompleteStatus())
                 .eqIfPresent(AssessStaffItemDO::getStatus, reqVO.getStatus())
                 .orderByDesc(AssessStaffItemDO::getId));
+    }
+  /*  default int updateStatusAndStaffByIssueId(Long issueId, String staff,AssessStaffItemDO update) {
+        return update(update, new QueryWrapper<AssessStaffItemDO>()
+                .eq("issue_id", issueId)
+                .eq("staff",staff));
+    }*/
+    default List<AssessStaffItemDO> selectByAssessTitle(String assessTitle) {
+        return (selectList(new LambdaQueryWrapperX<AssessStaffItemDO>()
+                .eqIfPresent(AssessStaffItemDO::getAssessTitle,assessTitle)
+        ));
     }
 
 }

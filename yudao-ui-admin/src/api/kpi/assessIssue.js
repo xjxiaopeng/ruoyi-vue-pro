@@ -19,10 +19,11 @@ export function updateAssessIssue(data) {
 }
 
 // 删除考核发布
-export function deleteAssessIssue(id) {
+export function deleteAssessIssue(id, title) {
+
   return request({
-    url: '/kpi/assess-issue/delete?id=' + id,
-    method: 'delete'
+    url: '/kpi/assess-issue/delete?id=' + id + '&title=' + title,
+    method: 'delete',
   })
 }
 
@@ -54,10 +55,11 @@ export function exportAssessIssueExcel(query) {
 }
 
 // 考核发布状态修改
-export function changeAssessIssueStatus(id, status) {
+export function changeAssessIssueStatus(id, status, assessTitle) {
   const data = {
     id,
-    status
+    status,
+    assessTitle
   }
   return request({
     url: '/kpi/assess-issue/update-status',

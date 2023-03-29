@@ -6,7 +6,9 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
 import cn.iocoder.yudao.module.kpi.dal.dataobject.assessissue.AssessIssueDO;
+import cn.iocoder.yudao.module.kpi.dal.dataobject.assesstodolist.AssessTodolistDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.PostDO;
+import cn.iocoder.yudao.module.system.dal.dataobject.social.SocialUserBindDO;
 import org.apache.ibatis.annotations.Mapper;
 import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.*;
 
@@ -51,5 +53,16 @@ public interface AssessIssueMapper extends BaseMapperX<AssessIssueDO> {
     default AssessIssueDO selectByName(String name) {
         return selectOne(AssessIssueDO::getAssessTitle, name);
     }
+
+    /**
+     * @param id
+     * @param title
+     */
+    default void deleteByTitleAndId(Long id, String title) {
+        delete(new LambdaQueryWrapperX<AssessIssueDO>()
+                .eq(AssessIssueDO::getId, id)
+                .eq(AssessIssueDO::getAssessTitle, title));
+    }
+
 
 }

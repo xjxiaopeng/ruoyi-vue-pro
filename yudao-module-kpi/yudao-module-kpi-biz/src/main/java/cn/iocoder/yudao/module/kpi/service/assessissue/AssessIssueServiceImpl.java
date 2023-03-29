@@ -1,5 +1,8 @@
 package cn.iocoder.yudao.module.kpi.service.assessissue;
 
+import cn.iocoder.yudao.module.kpi.dal.dataobject.assesstodolist.AssessTodolistDO;
+import cn.iocoder.yudao.module.kpi.dal.mysql.assessstaffitem.AssessStaffItemMapper;
+import cn.iocoder.yudao.module.kpi.dal.mysql.assesstodolist.AssessTodolistMapper;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.PostDO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -29,6 +32,11 @@ public class AssessIssueServiceImpl implements AssessIssueService {
 
     @Resource
     private AssessIssueMapper assessIssueMapper;
+    @Resource
+    private AssessTodolistMapper assessTodolistMapper;
+
+    @Resource
+    private AssessStaffItemMapper assessStaffItemMapper;
 
     @Override
     public Long createAssessIssue(AssessIssueCreateReqVO createReqVO) {
@@ -77,11 +85,15 @@ public class AssessIssueServiceImpl implements AssessIssueService {
     }
 
     @Override
-    public void deleteAssessIssue(Long id) {
+    public void deleteAssessIssue(Long id,String title) {
         // 校验存在
         validateAssessIssueExists(id);
-        // 删除
-        assessIssueMapper.deleteById(id);
+        // 删除考核发布
+        assessIssueMapper.deleteByTitleAndId(id,title);
+        //删除考核待办表
+        assessTodolistMapper.deleteByTitle(title);
+        //删除考核评分表
+        assessStaffItemMapper.deleteByTitle(title);
     }
 
     private void validateAssessIssueExists(Long id) {
@@ -116,5 +128,6 @@ public class AssessIssueServiceImpl implements AssessIssueService {
         updateObj.setId(id);
         updateObj.setStatus(status);
         assessIssueMapper.updateById(updateObj);
+
     }
 }

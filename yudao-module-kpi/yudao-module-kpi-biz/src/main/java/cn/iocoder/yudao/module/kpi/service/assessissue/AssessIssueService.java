@@ -33,7 +33,7 @@ public interface AssessIssueService {
      *
      * @param id 编号
      */
-    void deleteAssessIssue(Long id);
+    void deleteAssessIssue(Long id,String title);
 
     /**
      * 获得考核发布

@@ -16,4 +16,8 @@ public class AssessIssueUpdateStatusReqVO {
     @Schema(description = "状态", required = true, example = "1")
     @NotNull(message = "状态不能为空")
     private Integer status;
+
+    @Schema(description = "考核名称", required = true)
+    @NotNull(message = "考核名称不能为空")
+    private String assessTitle;
 }

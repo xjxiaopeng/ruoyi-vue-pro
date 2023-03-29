@@ -122,14 +122,16 @@
 
             <el-form-item label="考评人" prop="reviewer">
               <el-select v-model="form.reviewer" placeholder="请输入考评人" clearable style="width: 100%">
-                <el-option v-for="item in users" :key="parseInt(item.id)" :label="item.nickname" :value="item.nickname" />
+                <el-option v-for="item in users" :key="parseInt(item.id)" :label="item.nickname"
+                           :value="item.nickname"/>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="终评人" prop="decider">
               <el-select v-model="form.decider" placeholder="请输入终评人" clearable style="width: 100%">
-                <el-option v-for="item in users" :key="parseInt(item.id)" :label="item.nickname" :value="item.nickname" />
+                <el-option v-for="item in users" :key="parseInt(item.id)" :label="item.nickname"
+                           :value="item.nickname"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -157,23 +159,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!--          <el-form-item label="发布状态" prop="status">
-                    <el-radio-group v-model="form.status">
-                      <el-radio v-for="dict in this.getDictDatas(DICT_TYPE.INFRA_BOOLEAN_STRING)"
-                                :key="dict.value" :label="dict.value"
-                      >{{ dict.label }}
-                      </el-radio>
-                    </el-radio-group>
-                  </el-form-item>-->
 
-        <!--        <el-form-item label="发布状态" prop="status">-->
-        <!--          <el-radio-group v-model="form.status">-->
-
-        <!--            <el-radio v-for="dict in statusDictDatas" :key="parseInt(dict.value)" :label="parseInt(dict.value)">-->
-        <!--              {{ dict.label }}-->
-        <!--            </el-radio>-->
-        <!--          </el-radio-group>-->
-        <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -185,22 +171,23 @@
 
 <script>
 import {
+  changeAssessIssueStatus,
   createAssessIssue,
-  updateAssessIssue,
   deleteAssessIssue,
+  exportAssessIssueExcel,
   getAssessIssue,
   getAssessIssuePage,
-  exportAssessIssueExcel, changeAssessIssueStatus
+  updateAssessIssue
 } from '@/api/kpi/assessIssue'
-import { listSimpleDepts } from '@/api/system/dept'
-import { listSimplePosts } from '@/api/system/post'
+import {listSimpleDepts} from '@/api/system/dept'
+import {listSimplePosts} from '@/api/system/post'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import { beginOfDay, formatDate, getDate } from '@/utils/dateUtils'
-import { DICT_TYPE, getDictDatas } from '@/utils/dict'
-import { getNowDateTime, parseTime } from '../../../utils/ruoyi'
-import { CommonStatusEnum } from '@/utils/constants'
-import { changeUserStatus, listSimpleUsers } from '@/api/system/user'
+import {formatDate} from '@/utils/dateUtils'
+import {DICT_TYPE, getDictDatas} from '@/utils/dict'
+import {parseTime} from '../../../utils/ruoyi'
+import {CommonStatusEnum} from '@/utils/constants'
+import {listSimpleUsers} from '@/api/system/user'
 
 export default {
   name: 'AssessIssue',
@@ -209,7 +196,7 @@ export default {
       return DICT_TYPE
     }
   },
-  components: { Treeselect },
+  components: {Treeselect},
   data() {
     return {
       // 遮罩层
@@ -247,11 +234,11 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        assessTitle: [{ required: true, message: '考核名称不能为空', trigger: 'blur' }],
+        assessTitle: [{required: true, message: '考核名称不能为空', trigger: 'blur'}],
         // deptId: [{ required: true, message: '考核部门不能为空', trigger: 'blur' }],
-        postIds: [{ required: true, message: '岗位编号数组不能为空', trigger: 'blur' }],
-        assessStartTime: [{ required: true, message: '考核开始时间不能为空', trigger: 'blur' }],
-        assessEndTime: [{ required: true, message: '考核结束时间不能为空', trigger: 'blur' }]
+        postIds: [{required: true, message: '岗位编号数组不能为空', trigger: 'blur'}],
+        assessStartTime: [{required: true, message: '考核开始时间不能为空', trigger: 'blur'}],
+        assessEndTime: [{required: true, message: '考核结束时间不能为空', trigger: 'blur'}]
         // status: [{ required: true, message: '发布状态（0未发布 1发布）不能为空', trigger: 'blur' }]
       },
       // 数据字典
@@ -269,7 +256,7 @@ export default {
     this.getList()
     // 获得用户列表
     listSimpleUsers().then(response => {
-      this.users = response.data.filter(item=>item.nickname!=='肖鹏');
+      this.users = response.data.filter(item => item.nickname !== '肖鹏');
       // console.log(response.data)
       // console.log(this.users)
     });
@@ -291,18 +278,19 @@ export default {
         this.postOptions.push(...response.data)
       })
     },
-    handleChange(val){
-      console.log("输出值为：",val)
+    handleChange(val) {
+      console.log("输出值为：", val)
     },
     // 考核发布状态修改并生成数据
     handleStatusChange(row) {
       let text = row.status === CommonStatusEnum.ENABLE ? '发布' : '停止'
-      this.$modal.confirm('确认要' + text + row.assessTitle + '吗?').then(function() {
+      this.$modal.confirm('确认要' + text + row.assessTitle + '吗?').then(function () {
         // row.status=0
-        return changeAssessIssueStatus(row.id, row.status)
+        console.log(row.assessTitle)
+        return changeAssessIssueStatus(row.id, row.status,row.assessTitle)
       }).then(() => {
         this.$modal.msgSuccess(row.assessTitle + '已' + text)
-      }).catch(function() {
+      }).catch(function () {
         row.status = row.status === CommonStatusEnum.ENABLE ? CommonStatusEnum.DISABLE
           : CommonStatusEnum.ENABLE
       })
@@ -408,8 +396,10 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const id = row.id
-      this.$modal.confirm('是否确认删除考核发布编号为"' + id + '"的数据项?').then(function() {
-        return deleteAssessIssue(id)
+      const title = row.assessTitle
+      console.log(id,title)
+      this.$modal.confirm('是否确认删除考核发布名称为"' + title + '"的所有考核发布、待办及评分数据?').then(function () {
+        return deleteAssessIssue(id, title)
       }).then(() => {
         this.getList()
         this.$modal.msgSuccess('删除成功')
@@ -419,7 +409,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       // 处理查询参数
-      let params = { ...this.queryParams }
+      let params = {...this.queryParams}
       params.pageNo = undefined
       params.pageSize = undefined
       this.$modal.confirm('是否确认导出所有考核发布数据项?').then(() => {
