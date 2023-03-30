@@ -63,6 +63,8 @@ public class AssessTodolistBaseVO {
     @NotNull(message = "终评状态（1待办 0已办 2 无）不能为空")
     private Integer deciderStatus;
 
+    @Schema(description = "备注", required = true, example = "2")
+    private  String remark;
     @Schema(description = "考核开始时间", required = true)
     @NotNull(message = "考核开始时间不能为空")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)

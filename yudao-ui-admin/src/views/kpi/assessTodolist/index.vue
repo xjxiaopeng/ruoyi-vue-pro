@@ -61,11 +61,19 @@
       </el-table-column>
       <el-table-column label="终评人" align="center" prop="decider"/>
 
+
       <el-table-column label="终评日期" align="center" prop="deciderTime" width="180">
         <template v-slot="scope">
           <span>{{ parseTime(scope.row.deciderTime) }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column  label="备注" align="center" width="180" prop="remark">
+        <template v-slot="scope">
+          <span v-if="scope.row.remark">{{ scope.row.remark }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template v-slot="scope">
           <el-button v-if="scope.row.status===1" size="mini" type="text"
@@ -83,11 +91,11 @@
                      v-hasPermi="['kpi:assess-todolist:delete']"
           >终评
           </el-button>
-          <el-button v-if="scope.row.status==4" size="mini" type="text"
-                     icon="el-icon-document" @click="handleDecider(scope.row)"
-                     v-hasPermi="['kpi:assess-todolist:delete']"
-          >考核结束查看明细
-          </el-button>
+          <!--          <el-button v-if="scope.row.status>1 && scope.row.status<4" size="mini" type="text"-->
+          <!--                     icon="el-icon-document" @click="callBack(scope.row)"-->
+          <!--                     v-hasPermi="['kpi:assess-todolist:delete']"-->
+          <!--          >打回上一级-->
+          <!--          </el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -166,14 +174,22 @@
       </el-table>
       <el-form label-width="100px">
         <el-form-item style="text-align: center;margin-left:-100px;margin-top:10px;">
-          <el-button v-if="status!==4" type="primary" @click="submitForm()">提交</el-button>
-          <el-button @click="cancel">返回</el-button>
+          <el-form-item v-if="status>1 && status<3" label="退回原因：" prop="callBackRemark">
+            <el-input v-model="callBackRemark" placeholder="请输入退回原因"/>
+          </el-form-item>
+          <div style="padding-top: 3vh">
+            <el-button v-if="status>1 && status<3" type="danger" @click="callBackSubmitForm()">退回</el-button>
+<!--            <div style="padding-left: 10px; padding-right: 10px">-->
+
+              <el-button v-if="status===3" type="primary" @click="submitForm()">批准</el-button>
+              <el-button v-if="status<3" type="primary" @click="submitForm()">提交</el-button>
+
+            <el-button @click="cancel">返回</el-button>
+          </div>
+
         </el-form-item>
       </el-form>
-      <!--      <div slot="footer" class="dialog-footer">-->
-      <!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
-      <!--        <el-button @click="cancel">取 消</el-button>-->
-      <!--      </div>-->
+
     </el-dialog>
   </div>
 </template>
@@ -188,7 +204,6 @@ import {
 } from '@/api/kpi/assessTodolist'
 import {mapGetters} from 'vuex'
 import {getAssessStaffItemList, updateAssessStaffItem} from '@/api/kpi/assessStaffItem'
-import store from '@/store'
 
 export default {
   name: 'AssessTodolist',
@@ -209,12 +224,14 @@ export default {
       list: [],
       // 考核评分列表
       assessStaffItemList: [],
-      //考核评分状态
+      //考核待办状态
       status: 0,
       // 弹出层标题
       title: '',
       // 是否显示弹出层
       open: false,
+      //退回原因
+      callBackRemark: '',
       // 查询参数
       queryParams: {
         pageNo: 1,
@@ -247,7 +264,8 @@ export default {
         staff: undefined,
         staffStatus: undefined,
         staffTime: undefined,
-        status: undefined
+        status: undefined,
+        remark: undefined
       },
       // 表单校验
       rules: {
@@ -312,18 +330,9 @@ export default {
       this.list = []
       // 执行查询
       getAssessTodolistPage(this.queryParams).then(response => {
-        const roles = store.getters.roles
-        if (roles.includes("super_admin")) {
-          this.list = response.data.list
-        } else {
-          // this.list = response.data.list
-          // for (const item of this.list ) {
-          //   console.log(item.staff)
-          // }
-          this.list = response.data.list.filter(item => (item.staff === this.$store.getters.nickname && item.status === 1) ||
-            (item.reviewer === this.$store.getters.nickname && item.status === 2) ||
-            (item.decider === this.$store.getters.nickname && item.status === 3))
-        }
+        this.list = response.data.list.filter(item => (item.staff === this.$store.getters.nickname && item.status === 1) ||
+          (item.reviewer === this.$store.getters.nickname && item.status === 2) ||
+          (item.decider === this.$store.getters.nickname && item.status === 3))
         this.total = response.data.total
         this.loading = false
         // console.log(this.list)
@@ -387,6 +396,7 @@ export default {
         console.log(this.assessStaffItemList)
         // this.total = response.data.total
         this.loading = false
+        this.callBackRemark = ''
         this.open = true
         if (row.status === 1) {
           this.title = row.assessTitle + '自评（自评人：' + row.staff + '-------岗位：' + this.assessStaffItemList[0].post + '）'
@@ -414,6 +424,7 @@ export default {
         this.assessStaffItemList = response.data
         // this.total = response.data.total
         this.loading = false
+        this.callBackRemark = ''
         this.open = true
 
         if (row.status === 2) {
@@ -441,6 +452,7 @@ export default {
         this.assessStaffItemList = response.data
         // this.total = response.data.total
         this.loading = false
+        this.callBackRemark = ''
         this.open = true
 
         if (row.status === 3) {
@@ -450,7 +462,10 @@ export default {
       })
 
     },
+    // 打回处理
+    callBack(row) {
 
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
@@ -467,6 +482,82 @@ export default {
         this.title = '修改考核待办'
       })
     },
+    async callBackSubmitForm() {
+      let tempStatus = 0
+      for (let assessStaffItem of this.assessStaffItemList) {
+        tempStatus = assessStaffItem.status
+        // 修改考核评分表的评分状态
+        if (tempStatus === 3) {
+          assessStaffItem.status = 2
+          //如果自评人和考评人是一个人，将考核评分表状态设置为终评，将考评分设置为自评分
+          if (assessStaffItem.staff === assessStaffItem.reviewer) {
+            // assessStaffItem.reviewerTime = new Date(new Date().toLocaleString()).getTime()
+            // assessStaffItem.reviewerScore = assessStaffItem.staffScore;
+            assessStaffItem.status = 1
+          }
+        }
+        if (tempStatus === 2) {
+          // assessStaffItem.reviewerTime = new Date(new Date().toLocaleString()).getTime()
+          assessStaffItem.status = 1
+        }
+        // if (tempStatus === 3) {
+        //   assessStaffItem.deciderTime = new Date(new Date().toLocaleString()).getTime()
+        //   assessStaffItem.status = 4
+        // }
+        await updateAssessStaffItem(assessStaffItem)
+      }
+      // 打回完成后修改待办的状态
+      // 如果当前状态为终评
+      if (tempStatus === 3) {
+        //设置当前状态为考评
+        this.form.status = 2
+        //将考评状态设置为待办
+        this.form.reviewerStatus = 1
+        //将终评状态设置为2（无）
+        this.form.deciderStatus = 2
+        //如果自评人和审核人是一个人，将考核待办表状态设置为终评
+        if (this.form.staff === this.form.reviewer) {
+          //设置当前待办状态为自评
+          this.form.status = 1
+          // this.form.reviewerTime = new Date(new Date().toLocaleString()).getTime()
+          //将自评状态设置为待办
+          this.form.staffStatus = 1
+          //将考评状态设置为2（无）
+          this.form.reviewerStatus = 2
+        }
+        this.form.remark =this.form.decider+"打回："+  this.callBackRemark
+        // this.form.staffTime = new Date(new Date().toLocaleString()).getTime()
+        // this.form.staffTime= new Date()
+        await updateAssessTodolist(this.form)
+        this.$modal.msgSuccess('考核退回完成')
+        this.open = false
+        this.getList()
+      }
+      if (tempStatus === 2) {
+        //设置待办状态为自评
+        this.form.status = 1
+        //设置自评状态为待办
+        this.form.staffStatus = 1
+        //设置考评状态为2（无）
+        this.form.reviewerStatus = 2
+        this.form.remark =this.form.reviewer+"打回："+ this.callBackRemark
+        // this.form.reviewerTime = new Date(new Date().toLocaleString()).getTime()
+        await updateAssessTodolist(this.form)
+        this.$modal.msgSuccess('考核退回完成')
+        this.open = false
+        this.getList()
+      }
+      // if (tempStatus === 3) {
+      //   this.form.status = 4
+      //   this.form.deciderStatus = 0
+      //   this.form.deciderTime = new Date(new Date().toLocaleString()).getTime()
+      //   await updateAssessTodolist(this.form)
+      //   this.$modal.msgSuccess('考核终评完成')
+      //   this.open = false
+      //   this.getList()
+      // }
+    },
+
     /** 考核评分提交按钮 */
     async submitForm() {
       let tempStatus = 0
@@ -480,8 +571,8 @@ export default {
           assessStaffItem.status = 2
           //如果自评人和考评人是一个人，将考核评分表状态设置为终评，将考评分设置为自评分
           if (assessStaffItem.staff === assessStaffItem.reviewer) {
-            assessStaffItem.reviewerTime=new Date(new Date().toLocaleString()).getTime()
-            assessStaffItem.reviewerScore=assessStaffItem.staffScore;
+            assessStaffItem.reviewerTime = new Date(new Date().toLocaleString()).getTime()
+            assessStaffItem.reviewerScore = assessStaffItem.staffScore;
             assessStaffItem.status = 3
           }
         }
@@ -502,7 +593,7 @@ export default {
         //如果自评人和审核人是一个人，将考核待办表状态设置为终评
         if (this.form.staff === this.form.reviewer) {
           this.form.status = 3
-          this.form.reviewerTime=new Date(new Date().toLocaleString()).getTime()
+          this.form.reviewerTime = new Date(new Date().toLocaleString()).getTime()
           this.form.reviewerStatus = 0
         }
         this.form.staffTime = new Date(new Date().toLocaleString()).getTime()

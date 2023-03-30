@@ -22,7 +22,7 @@ $contentBgColor: #ffffff;
 // container-content-pic
 $picWidth: round($picW / $H * 100) * 1vw;
 $picHeight: inherit;
-$picImage: '../assets/images/pic.jpg';
+$picImage: '../assets/images/pic.png';
 // container-content-field
 $fieldWidth: $contentWidth - $picWidth;
 $fieldHeight: inherit;

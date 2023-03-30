@@ -160,9 +160,8 @@ public class AssessIssueController {
                     //通过用户ID查找岗位IDS 遍历岗位IDS
                     for (Long postId : adminUserApi.getUser(userid).getPostIds()) {
                         //根据岗位编号和是否必选查询考核存储库表
-                        List<AssessStoreDO> assessStoreS = assessStoreService.selectList(postId, 0);
                         //遍历考核指标库表
-                        for (AssessStoreDO assessStoreDO : assessStoreS) {
+                        for (AssessStoreDO assessStoreDO : assessStoreService.selectList(postId, 0)) {
                             //将考核存储库中的数据插入到考核评分表
                             assessStaffItemCreateReqVO.setIssueId(assessIssue.getId());
                             assessStaffItemCreateReqVO.setTodolistId(todoId);
@@ -170,22 +169,17 @@ public class AssessIssueController {
                             assessStaffItemCreateReqVO.setTitle(assessStoreDO.getTitle());
                             assessStaffItemCreateReqVO.setStandard(assessStoreDO.getStandard());
                             assessStaffItemCreateReqVO.setScore(assessStoreDO.getScore());
-
                             assessStaffItemCreateReqVO.setStaff(adminUserApi.getUser(userid).getNickname());
                             assessStaffItemCreateReqVO.setStaffCompleteStatus(0);
                             assessStaffItemCreateReqVO.setStaffScore(assessStoreDO.getScore());
-
                             assessStaffItemCreateReqVO.setReviewer(assessIssue.getReviewer());
                             assessStaffItemCreateReqVO.setReviewerCompleteStatus(0);
                             assessStaffItemCreateReqVO.setReviewerScore(assessStoreDO.getScore());
-
                             assessStaffItemCreateReqVO.setDecider(assessIssue.getDecider());
                             assessStaffItemCreateReqVO.setDeciderCompleteStatus(0);
                             assessStaffItemCreateReqVO.setDeciderScore(assessStoreDO.getScore());
                             assessStaffItemCreateReqVO.setPost(postService.getPost(postId).getName());
-
                             assessStaffItemCreateReqVO.setStatus(1);
-
                             assessStaffItemCreateReqVO.setFixed(assessStoreDO.getFixed());
                             assessStaffItemService.createAssessStaffItem(assessStaffItemCreateReqVO);
 
@@ -199,15 +193,13 @@ public class AssessIssueController {
 
         } else {
             if (assessTodolistMapper.selectByAssessTitle(reqVO.getAssessTitle()) != null) {
-                List<AssessTodolistDO> assessTodolistDOS = assessTodolistMapper.selectByAssessTitle(reqVO.getAssessTitle());
-                for (AssessTodolistDO assessTodolistDO : assessTodolistDOS) {
+                for (AssessTodolistDO assessTodolistDO : assessTodolistMapper.selectByAssessTitle(reqVO.getAssessTitle())) {
                     assessTodolistDO.setStatus(4);
                     assessTodolistMapper.updateById(assessTodolistDO);
                 }
             }
             if (assessStaffItemMapper.selectByAssessTitle(reqVO.getAssessTitle()) != null) {
-                List<AssessStaffItemDO> assessStaffItemDOS = assessStaffItemMapper.selectByAssessTitle(reqVO.getAssessTitle());
-                for (AssessStaffItemDO assessStaffItemDO : assessStaffItemDOS) {
+                for (AssessStaffItemDO assessStaffItemDO : assessStaffItemMapper.selectByAssessTitle(reqVO.getAssessTitle())) {
                     assessStaffItemDO.setStatus(4);
                     assessStaffItemMapper.updateById(assessStaffItemDO);
                 }

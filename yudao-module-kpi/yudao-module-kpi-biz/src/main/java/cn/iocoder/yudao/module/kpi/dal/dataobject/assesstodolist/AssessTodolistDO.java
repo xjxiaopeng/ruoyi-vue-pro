@@ -76,6 +76,12 @@ public class AssessTodolistDO extends BaseDO {
      * 终评状态（1待办 0已办 2 无）
      */
     private Integer deciderStatus;
+
+    /**
+     * 备注
+     */
+    private  String remark;
+
     /**
      * 考核开始时间
      */

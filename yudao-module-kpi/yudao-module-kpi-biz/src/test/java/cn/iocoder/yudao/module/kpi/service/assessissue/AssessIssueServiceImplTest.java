@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.kpi.service.assessissue;
 
+import jdk.jpackage.internal.Log;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -89,9 +90,9 @@ public class AssessIssueServiceImplTest extends BaseDbUnitTest {
         assessIssueMapper.insert(dbAssessIssue);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbAssessIssue.getId();
-
+        String title=dbAssessIssue.getAssessTitle();
         // 调用
-        assessIssueService.deleteAssessIssue(id);
+        assessIssueService.deleteAssessIssue(id,title);
        // 校验数据不存在了
        assertNull(assessIssueMapper.selectById(id));
     }
@@ -100,9 +101,9 @@ public class AssessIssueServiceImplTest extends BaseDbUnitTest {
     public void testDeleteAssessIssue_notExists() {
         // 准备参数
         Long id = randomLongId();
-
+        String title= "123";
         // 调用, 并断言异常
-        assertServiceException(() -> assessIssueService.deleteAssessIssue(id), ASSESS_ISSUE_NOT_EXISTS);
+        assertServiceException(() -> assessIssueService.deleteAssessIssue(id,title), ASSESS_ISSUE_NOT_EXISTS);
     }
 
     @Test
