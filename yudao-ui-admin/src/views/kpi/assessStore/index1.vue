@@ -24,14 +24,14 @@
         >新增
         </el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-                   :loading="exportLoading"
-                   v-hasPermi="['kpi:assess-store:export']"
-        >导出
-        </el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"-->
+<!--                   :loading="exportLoading"-->
+<!--                   v-hasPermi="['kpi:assess-store:export']"-->
+<!--        >导出-->
+<!--        </el-button>-->
+<!--      </el-col>-->
+<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
     </el-row>
 
     <!-- 列表 -->
@@ -45,16 +45,6 @@
           {{ scope.row.postId == 0 ? '所有岗位' : getPostname(scope.row.postId) }}
         </template>
       </el-table-column>
-<!--      <el-table-column label="指标状态" min-width="8%" align="center" prop="status">-->
-<!--        <template v-slot="scope">-->
-<!--          <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="全员指标" min-width="8%" align="center" prop="fixed">-->
-<!--        <template v-slot="scope">-->
-<!--          <span>{{ scope.row.fixed == 0 ? '是' : '否' }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
     </el-table>
   </div>
 </template>

@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 // 创建工资基础
-export function createPaySheetBase(data) {
+export function createPaySheetBase(/*data*/) {
   return request({
     url: '/hr/pay-sheet-base/create',
     method: 'post',
-    data: data
+   /* data: data*/
   })
 }
 

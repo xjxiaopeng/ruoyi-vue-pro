@@ -30,14 +30,14 @@
         >新增
         </el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-                   :loading="exportLoading"
-                   v-hasPermi="['kpi:assess-issue:export']"
-        >导出
-        </el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"-->
+<!--                   :loading="exportLoading"-->
+<!--                   v-hasPermi="['kpi:assess-issue:export']"-->
+<!--        >导出-->
+<!--        </el-button>-->
+<!--      </el-col>-->
+<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
     </el-row>
 
     <!-- 列表 -->
@@ -258,7 +258,7 @@ export default {
     listSimpleUsers().then(response => {
       this.users = response.data.filter(item => item.nickname !== '肖鹏');
       // console.log(response.data)
-      // console.log(this.users)
+       console.log(this.users)
     });
     this.getTreeselect()
   },

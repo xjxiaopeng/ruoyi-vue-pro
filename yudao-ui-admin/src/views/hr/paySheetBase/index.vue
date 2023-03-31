@@ -3,14 +3,26 @@
 
     <!-- 搜索工作栏 -->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="用户ID" prop="userId">
-        <el-input v-model="queryParams.userId" placeholder="请输入用户ID" clearable @keyup.enter.native="handleQuery"/>
+<!--      <el-form-item label="用户ID" prop="userId">-->
+<!--        <el-input v-model="queryParams.userId" placeholder="请输入用户ID" clearable @keyup.enter.native="handleQuery"/>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="部门" prop="deptId">-->
+<!--        <el-input v-model="queryParams.deptId" placeholder="请选择部门" clearable @keyup.enter.native="handleQuery"/>-->
+<!--      </el-form-item>-->
+
+      <el-form-item label="部门" prop="deptId">
+        <el-select v-model="queryParams.deptId" clearable @change="selectDeptChang()" placeholder="请选择">
+          <el-option
+            v-for="item in deptOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="部门ID" prop="deptId">
-        <el-input v-model="queryParams.deptId" placeholder="请输入部门ID" clearable @keyup.enter.native="handleQuery"/>
-      </el-form-item>
-      <el-form-item label="用户昵称" prop="nickname">
-        <el-input v-model="queryParams.nickname" placeholder="请输入用户昵称" clearable @keyup.enter.native="handleQuery"/>
+
+      <el-form-item label="姓名" prop="nickname">
+        <el-input v-model="queryParams.nickname" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
@@ -22,22 +34,76 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                   v-hasPermi="['hr:pay-sheet-base:create']">新增</el-button>
+                   v-hasPermi="['hr:pay-sheet-base:create']">生成新的基础工资表</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" :loading="exportLoading"
-                   v-hasPermi="['hr:pay-sheet-base:export']">导出</el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" :loading="exportLoading"-->
+<!--                   v-hasPermi="['hr:pay-sheet-base:export']">导出</el-button>-->
+<!--      </el-col>-->
+<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
     </el-row>
 
     <!-- 列表 -->
     <el-table v-loading="loading" :data="list">
-      <el-table-column label="主键ID" align="center" prop="id" />
-      <el-table-column label="用户ID" align="center" prop="userId" />
-      <el-table-column label="部门ID" align="center" prop="deptId" />
-      <el-table-column label="部门名称" align="center" prop="deptName" />
-      <el-table-column label="用户昵称" align="center" prop="nickname" />
+<!--      <el-table-column type="expand">-->
+<!--        <template  style="text-align: center" v-slot="props">-->
+<!--          <el-form label-position="left" inline class="demo-table-expand">-->
+<!--            <el-form-item label="基本工资">-->
+<!--              <span>{{ props.row.basePay }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="绩效工资">-->
+<!--              <span>{{ props.row.meritPay }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="加班工资">-->
+<!--              <span>{{ props.row.overtimePay }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="高温补贴">-->
+<!--              <span>{{ props.row.hightemperatureSubsidy }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="补助">-->
+<!--              <span>{{ props.row.allowance }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="餐补">-->
+<!--              <span>{{ props.row.lunchSubsides }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="事假">-->
+<!--              <span>{{ props.row.personalLeave }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="病假">-->
+<!--              <span>{{ props.row.sickLeave }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="其他">-->
+<!--              <span>{{ props.row.rests }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="住房公积金">-->
+<!--              <span>{{ props.row.housingFund }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="养老保险">-->
+<!--              <span>{{ props.row.oldageInsurance }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="医疗保险">-->
+<!--              <span>{{ props.row.medicalInsurance }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="失业保险">-->
+<!--              <span>{{ props.row.unemploymentInsurance }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="工伤保险">-->
+<!--              <span>{{ props.row.njuryInsurance }}</span>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+
+
+
+<!--      <el-table-column label="编号" type="index" align="center" prop="id" />-->
+      <el-table-column label="姓名" align="center" prop="nickname" />
+      <el-table-column label="部门"  align="center" prop="deptId">
+        <template v-slot="scope">
+          {{ scope.row.deptId == 0 ? '' : getDeptName(scope.row.deptId) }}
+        </template>
+      </el-table-column>
+
       <el-table-column label="基本工资" align="center" prop="basePay" />
       <el-table-column label="绩效工资" align="center" prop="meritPay" />
       <el-table-column label="加班工资" align="center" prop="overtimePay" />
@@ -138,7 +204,8 @@
 
 <script>
 import { createPaySheetBase, updatePaySheetBase, deletePaySheetBase, getPaySheetBase, getPaySheetBasePage, exportPaySheetBaseExcel } from "@/api/hr/paySheetBase";
-
+import {listSimpleDepts} from '@/api/system/dept'
+import {listSimplePosts} from "@/api/system/post";
 export default {
   name: "PaySheetBase",
   components: {
@@ -159,6 +226,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //部门列表
+      deptOptions: [],
       // 查询参数
       queryParams: {
         pageNo: 1,
@@ -179,9 +248,13 @@ export default {
     };
   },
   created() {
+    this.getTreeselect()
     this.getList();
   },
   methods: {
+    selectDeptChang() {
+      this.getList()
+    },
     /** 查询列表 */
     getList() {
       this.loading = true;
@@ -191,6 +264,38 @@ export default {
         this.total = response.data.total;
         this.loading = false;
       });
+    },
+    /** 查询部门下拉树结构 + 岗位下拉 */
+    getTreeselect() {
+         listSimpleDepts().then(response => {
+          // 处理 deptOptions 参数
+          this.deptOptions = [];
+          this.deptOptions.push(...response.data);
+           console.log(this.deptOptions)
+        });
+      // listSimplePosts().then(response => {
+      //   // 处理 postOptions 参数
+      //   this.postOptions = []
+      //   this.postOptions.push({id: 0, name: '所有岗位'})
+      //   this.postOptions.push(...response.data)
+      //   for (const post of this.postOptions) {
+      //     if (post.name === '会计') {
+      //       this.queryParams.postId=post.id
+      //     }
+      //   }
+      //   this.getList()
+      // })
+    },
+    /** 根据部门id获取部门名称*/
+    getDeptName(deptId){
+      console.log(this.deptOptions)
+      for (const dept of this.deptOptions) {
+        if (dept.id === deptId) {
+          return dept.name
+        }
+      }
+      return '未知(' + deptId + ')'
+
     },
     /** 取消按钮 */
     cancel() {
@@ -234,9 +339,14 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加工资基础";
+      // this.reset();
+      // this.open = true;
+      // this.title = "添加工资基础";
+      createPaySheetBase(/*this.form*/).then(response => {
+        this.$modal.msgSuccess("新增成功");
+        // this.open = false;
+        this.getList();
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -263,12 +373,7 @@ export default {
           });
           return;
         }
-        // 添加的提交
-        createPaySheetBase(this.form).then(response => {
-          this.$modal.msgSuccess("新增成功");
-          this.open = false;
-          this.getList();
-        });
+
       });
     },
     /** 删除按钮操作 */
@@ -298,3 +403,19 @@ export default {
   }
 };
 </script>
+
+<style>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  /*color: #99a9bf;*/
+}
+.demo-table-expand .el-form-item {
+  margin-left: 38vh;
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 20%;
+}
+</style>
