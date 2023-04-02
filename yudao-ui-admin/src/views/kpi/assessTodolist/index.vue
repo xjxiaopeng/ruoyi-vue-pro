@@ -24,27 +24,11 @@
       </el-tooltip>
     </el-form>
 
-    <!-- 操作工具栏 -->
-    <!--    <el-row :gutter="10" class="mb8">-->
-    <!--      <el-col :span="1.5">-->
-    <!--        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"-->
-    <!--                   v-hasPermi="['kpi:assess-todolist:create']"-->
-    <!--        >新增-->
-    <!--        </el-button>-->
-    <!--      </el-col>-->
-    <!--      <el-col :span="1.5">-->
-    <!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"-->
-    <!--                   :loading="exportLoading"-->
-    <!--                   v-hasPermi="['kpi:assess-todolist:export']"-->
-    <!--        >导出-->
-    <!--        </el-button>-->
-    <!--      </el-col>-->
-    <!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
-    <!--    </el-row>-->
+
 
     <!-- 列表 -->
     <el-table v-loading="loading" :data="list">
-      <el-table-column label="编号" type="index" align="center" prop="id"/>
+      <el-table-column label="序号" type="index" align="center" prop="id"/>
       <el-table-column v-if="false" label="考核编号" align="center" prop="issueId"/>
       <el-table-column label="考核名称" align="center" prop="assessTitle"/>
       <el-table-column label="自评人" align="center" prop="staff"/>

@@ -33,4 +33,9 @@ public interface PaySheetBaseMapper extends BaseMapperX<PaySheetBaseDO> {
                 .orderByDesc(PaySheetBaseDO::getId));
     }
 
+    default List<PaySheetBaseDO> selectListAll() {
+        return selectList(new LambdaQueryWrapperX<PaySheetBaseDO>()
+                .orderByAsc(PaySheetBaseDO::getId));
+    }
+
 }

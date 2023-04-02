@@ -36,7 +36,7 @@
 
     <!-- 列表 -->
     <el-table show-summary :summary-method="getSummaries" v-loading="loading" :data="list">
-      <el-table-column label="编号" align="center" type="index" min-width="8%"/>
+      <el-table-column label="序号" align="center" type="index" min-width="8%"/>
       <el-table-column label="考核指标" min-width="30%" align="center" prop="title"/>
       <el-table-column label="考核标准" min-width="30%" align="center" prop="standard"/>
       <el-table-column label="考核分值" min-width="8%" align="center" prop="score"/>

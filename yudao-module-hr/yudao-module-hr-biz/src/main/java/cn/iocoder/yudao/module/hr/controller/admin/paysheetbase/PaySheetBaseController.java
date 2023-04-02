@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.hr.controller.admin.paysheetbase;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.excel.core.util.ExcelUtils;
 import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
+import cn.iocoder.yudao.module.system.service.dept.DeptService;
 import cn.iocoder.yudao.module.system.service.user.AdminUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,8 @@ public class PaySheetBaseController {
     @Resource
     private AdminUserService userService;
 
+
+
     @PostMapping("/create")
     @Operation(summary = "创建工资基础")
     @PreAuthorize("@ss.hasPermission('hr:pay-sheet-base:create')")
@@ -75,7 +78,6 @@ public class PaySheetBaseController {
                     createReqVO.setNjuryInsurance(BigDecimal.valueOf(0));
                     paySheetBaseService.createPaySheetBase(createReqVO);
                 }
-
             }
 
         //}

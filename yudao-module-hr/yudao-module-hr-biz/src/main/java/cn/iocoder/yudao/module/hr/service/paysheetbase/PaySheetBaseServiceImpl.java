@@ -79,4 +79,9 @@ public class PaySheetBaseServiceImpl implements PaySheetBaseService {
         return paySheetBaseMapper.selectList(exportReqVO);
     }
 
+
+    public List<PaySheetBaseDO> getPaySheetBaseListAll() {
+        return paySheetBaseMapper.selectListAll();
+    }
+
 }

@@ -52,6 +52,12 @@ public interface PaySheetBaseService {
     List<PaySheetBaseDO> getPaySheetBaseList(Collection<Long> ids);
 
     /**
+     * 获得工资基础列表
+     *
+     */
+    List<PaySheetBaseDO> getPaySheetBaseListAll();
+
+    /**
      * 获得工资基础分页
      *
      * @param pageReqVO 分页查询

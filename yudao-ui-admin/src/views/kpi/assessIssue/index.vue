@@ -42,7 +42,7 @@
 
     <!-- 列表 -->
     <el-table v-loading="loading" :data="list">
-      <el-table-column label="编号" type="index" min-width="8%" align="center" prop="id"/>
+      <el-table-column label="序号" type="index" min-width="8%" align="center" prop="id"/>
       <el-table-column label="考核名称" align="center" min-width="18%" prop="assessTitle"/>
 
 
@@ -258,7 +258,7 @@ export default {
     listSimpleUsers().then(response => {
       this.users = response.data.filter(item => item.nickname !== '肖鹏');
       // console.log(response.data)
-       console.log(this.users)
+      //  console.log(this.users)
     });
     this.getTreeselect()
   },
@@ -349,7 +349,7 @@ export default {
       this.getTreeselect()
       this.open = true
       this.title = '添加考核发布'
-      this.form.assessTitle = formatDate(new Date(), 'yyyy年MM月').toString() + '考核'
+      this.form.assessTitle = formatDate(new Date(), 'yyyy年M月').toString() + '考核'
       this.form.assessStartTime = new Date(new Date().toLocaleDateString()).getTime()
       this.form.assessEndTime = new Date(new Date().toLocaleDateString()).getTime() + (3600 * 1000 * 24 * 7)
       // this.form.assessEndTime = beginOfDay(new Date(new Date().getTime() + 3600 * 1000 * 24 * 7))

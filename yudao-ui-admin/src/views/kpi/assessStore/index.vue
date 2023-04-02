@@ -57,9 +57,15 @@
 
     <!-- 列表 -->
     <el-table show-summary :summary-method="getSummaries" v-loading="loading" :data="list">
-      <el-table-column label="编号" align="center" type="index" min-width="8%"/>
+      <el-table-column label="序号" align="center" type="index" min-width="8%"/>
       <el-table-column label="考核指标" min-width="30%" align="center" prop="title"/>
+
       <el-table-column label="考核标准" min-width="30%" align="center" prop="standard"/>
+<!--        <template v-slot="scope">-->
+<!--          <span v-html='scope.row.standard'></span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+
       <el-table-column label="考核分值" min-width="8%" align="center" prop="score"/>
       <el-table-column label="所属岗位" min-width="8%" align="center">
         <template v-slot="scope">
@@ -100,6 +106,7 @@
           <el-input v-model="form.title" type="textarea" autosize placeholder="请输入考核指标"/>
         </el-form-item>
         <el-form-item label="考核标准" prop="standard">
+<!--          <editor v-model="form.standard" :min-height="192"/>-->
           <el-input v-model="form.standard" type="textarea" autosize placeholder="请输入考核标准"/>
         </el-form-item>
         <el-form-item label="考核分值" prop="score">
@@ -155,6 +162,7 @@ import {
 } from '@/api/kpi/assessStore'
 import {DICT_TYPE, getDictDatas} from '@/utils/dict'
 import {listSimplePosts} from '@/api/system/post'
+import Editor from "@/components/Editor/index.vue";
 
 export default {
   name: 'AssessStore',
@@ -163,7 +171,7 @@ export default {
       return DICT_TYPE
     }
   },
-  components: {},
+  components: {Editor},
   data() {
     return {
       // 遮罩层
