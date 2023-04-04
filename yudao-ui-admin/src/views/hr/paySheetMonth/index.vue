@@ -3,8 +3,8 @@
 
     <!-- 搜索工作栏 -->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width=68px>
-      <el-form-item label="所属日期" prop="wageName" style="cursor:hand;cursor:pointer">
-        <el-date-picker style="cursor:hand;cursor:pointer"
+      <el-form-item label="所属日期" prop="wageName" >
+        <el-date-picker
                         v-model="queryParams.wageName"
                         type="month"
                         format="yyyy年M月"
@@ -15,16 +15,15 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="姓名" prop="nickname">
-        <el-input v-model="queryParams.nickname" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery"/>
+        <el-input v-model="queryParams.nickname"  placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery"/>
       </el-form-item>
       <el-form-item label="部门" prop="deptName">
-        <el-select v-model="queryParams.deptName" @change="deptValueChange()" placeholder="请输入部门" style="width:100%">
+        <el-select v-model="queryParams.deptName" clearable @change="deptValueChange()" placeholder="请输入部门" style="width:100%">
           <el-option
             v-for="item in deptOptions"
             :key="item.id"
             :label="item.name"
             :value="item.name"
-
           ></el-option>
         </el-select>
 <!--        <el-input v-model="queryParams.deptName" placeholder="请输入部门" clearable @keyup.enter.native="handleQuery"/>-->
@@ -38,16 +37,21 @@
     <!-- 操作工具栏 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                   v-hasPermi="['hr:pay-sheet-month:create']">新增
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAddMonth"
+                   v-hasPermi="['hr:pay-sheet-month:create']">生成当月工资表
         </el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-                   :loading="exportLoading"
-                   v-hasPermi="['hr:pay-sheet-month:export']">导出
-        </el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"-->
+<!--                   v-hasPermi="['hr:pay-sheet-month:create']">新增-->
+<!--        </el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"-->
+<!--                   :loading="exportLoading"-->
+<!--                   v-hasPermi="['hr:pay-sheet-month:export']">导出-->
+<!--        </el-button>-->
+<!--      </el-col>-->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -258,6 +262,10 @@ export default {
     };
   },
   created() {
+    const today = new Date()
+    const year=today.getFullYear()
+    const month = today.getMonth()+1
+    this.queryParams.wageName=year+"年"+month+"月"
     /** 查询部门下拉树结构*/
     listSimpleDepts().then(response => {
       this.deptOptions = [];
@@ -358,11 +366,20 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
       this.title = "添加月工资";
+    },
+
+    /** 生成月工资表按钮操作 */
+    handleAddMonth(){
+      createPaySheetMonth().then(response => {
+        this.$modal.msgSuccess("生成月工资表成功");
+        this.getList();
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

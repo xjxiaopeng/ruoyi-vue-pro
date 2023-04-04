@@ -49,14 +49,7 @@ public class PaySheetBaseDO extends BaseDO {
      * 部门ID
      */
     private Long deptId;
-    /**
-     * 部门名称
-     */
-    private String deptName;
-    /**
-     * 用户昵称
-     */
-    private String nickname;
+
     /**
      * 基本工资
      */

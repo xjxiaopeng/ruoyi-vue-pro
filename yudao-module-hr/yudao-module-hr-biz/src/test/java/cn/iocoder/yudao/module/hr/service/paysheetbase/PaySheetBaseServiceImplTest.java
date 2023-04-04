@@ -112,7 +112,6 @@ public class PaySheetBaseServiceImplTest extends BaseDbUnitTest {
        PaySheetBaseDO dbPaySheetBase = randomPojo(PaySheetBaseDO.class, o -> { // 等会查询到
            o.setUserId(null);
            o.setDeptId(null);
-           o.setNickname(null);
        });
        paySheetBaseMapper.insert(dbPaySheetBase);
        // 测试 userId 不匹配
@@ -120,12 +119,10 @@ public class PaySheetBaseServiceImplTest extends BaseDbUnitTest {
        // 测试 deptId 不匹配
        paySheetBaseMapper.insert(cloneIgnoreId(dbPaySheetBase, o -> o.setDeptId(null)));
        // 测试 nickname 不匹配
-       paySheetBaseMapper.insert(cloneIgnoreId(dbPaySheetBase, o -> o.setNickname(null)));
        // 准备参数
        PaySheetBasePageReqVO reqVO = new PaySheetBasePageReqVO();
        reqVO.setUserId(null);
        reqVO.setDeptId(null);
-       reqVO.setNickname(null);
 
        // 调用
        PageResult<PaySheetBaseDO> pageResult = paySheetBaseService.getPaySheetBasePage(reqVO);
@@ -142,7 +139,6 @@ public class PaySheetBaseServiceImplTest extends BaseDbUnitTest {
        PaySheetBaseDO dbPaySheetBase = randomPojo(PaySheetBaseDO.class, o -> { // 等会查询到
            o.setUserId(null);
            o.setDeptId(null);
-           o.setNickname(null);
        });
        paySheetBaseMapper.insert(dbPaySheetBase);
        // 测试 userId 不匹配
@@ -150,12 +146,10 @@ public class PaySheetBaseServiceImplTest extends BaseDbUnitTest {
        // 测试 deptId 不匹配
        paySheetBaseMapper.insert(cloneIgnoreId(dbPaySheetBase, o -> o.setDeptId(null)));
        // 测试 nickname 不匹配
-       paySheetBaseMapper.insert(cloneIgnoreId(dbPaySheetBase, o -> o.setNickname(null)));
        // 准备参数
        PaySheetBaseExportReqVO reqVO = new PaySheetBaseExportReqVO();
        reqVO.setUserId(null);
        reqVO.setDeptId(null);
-       reqVO.setNickname(null);
 
        // 调用
        List<PaySheetBaseDO> list = paySheetBaseService.getPaySheetBaseList(reqVO);

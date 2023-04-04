@@ -21,27 +21,29 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="姓名" prop="nickname">
-        <el-input v-model="queryParams.nickname" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery"/>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-      </el-form-item>
+<!--      <el-form-item label="姓名" prop="nickname">-->
+<!--        <el-input v-model="queryParams.nickname" placeholder="请输入姓名" clearable @keyup.enter.native="handleQuery"/>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>-->
+<!--        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>-->
+<!--      </el-form-item>-->
     </el-form>
 
     <!-- 操作工具栏 -->
     <el-row :gutter="10" class="mb8">
+
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                   v-hasPermi="['hr:pay-sheet-base:create']">生成新的基础工资表
+                   v-hasPermi="['hr:pay-sheet-base:create']">新增
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAddMonth"
-                   v-hasPermi="['hr:pay-sheet-month:create']">生成月工资表
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAddAll"
+                   v-hasPermi="['hr:pay-sheet-base:create']">批量生成新的基础工资表
         </el-button>
       </el-col>
+
       <!--      <el-col :span="1.5">-->
       <!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" :loading="exportLoading"-->
       <!--                   v-hasPermi="['hr:pay-sheet-base:export']">导出</el-button>-->
@@ -51,67 +53,17 @@
 
     <!-- 列表 -->
     <el-table v-loading="loading" :data="list" :max-height="tableHeight" :summary-method="getSummaries" style="width: 100%">
-      <!--      <el-table-column type="expand">-->
-      <!--        <template  style="text-align: center" v-slot="props">-->
-      <!--          <el-form label-position="left" inline class="demo-table-expand">-->
-      <!--            <el-form-item label="基本工资">-->
-      <!--              <span>{{ props.row.basePay }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="绩效工资">-->
-      <!--              <span>{{ props.row.meritPay }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="加班工资">-->
-      <!--              <span>{{ props.row.overtimePay }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="高温补贴">-->
-      <!--              <span>{{ props.row.hightemperatureSubsidy }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="补助">-->
-      <!--              <span>{{ props.row.allowance }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="餐补">-->
-      <!--              <span>{{ props.row.lunchSubsides }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="事假">-->
-      <!--              <span>{{ props.row.personalLeave }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="病假">-->
-      <!--              <span>{{ props.row.sickLeave }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="其他">-->
-      <!--              <span>{{ props.row.rests }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="住房公积金">-->
-      <!--              <span>{{ props.row.housingFund }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="养老保险">-->
-      <!--              <span>{{ props.row.oldageInsurance }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="医疗保险">-->
-      <!--              <span>{{ props.row.medicalInsurance }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="失业保险">-->
-      <!--              <span>{{ props.row.unemploymentInsurance }}</span>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="工伤保险">-->
-      <!--              <span>{{ props.row.njuryInsurance }}</span>-->
-      <!--            </el-form-item>-->
-      <!--          </el-form>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-
       <el-table-column label="序号" type="index" align="center" fixed prop="id"/>
       <el-table-column label="姓名"  fixed align="center">
         <template v-slot="scope">
           <span>
-            {{scope.row.userId == 0 ? '' : getUsername(scope.row.userId) }}
+            {{ scope.row.userId === 0 ? '' : getUsername(scope.row.userId) }}
           </span>
         </template>
       </el-table-column>
       <el-table-column label="部门" align="center" prop="deptId">
         <template v-slot="scope">
-          {{ scope.row.deptId == 0 ? '' : getDeptName(scope.row.deptId) }}
+          {{ scope.row.deptId === 0 ? '' : getDeptName(scope.row.deptId) }}
         </template>
       </el-table-column>
 
@@ -272,7 +224,7 @@
 import {
   createPaySheetBase,
   deletePaySheetBase,
-  exportPaySheetBaseExcel,
+  exportPaySheetBaseExcel, generateSheetBase,
   getPaySheetBase,
   getPaySheetBasePage,
   updatePaySheetBase
@@ -312,7 +264,6 @@ export default {
         pageSize: 10,
         userId: null,
         deptId: null,
-        nickname: null,
       },
       // 表单参数
       form: {},
@@ -320,8 +271,6 @@ export default {
       rules: {
         userId: [{required: true, message: "用户ID不能为空", trigger: "blur"}],
         deptId: [{required: true, message: "部门ID不能为空", trigger: "blur"}],
-        deptName: [{required: true, message: "部门名称不能为空", trigger: "blur"}],
-        nickname: [{required: true, message: "用户昵称不能为空", trigger: "blur"}],
       }
     };
   },
@@ -400,8 +349,6 @@ export default {
         id: undefined,
         userId: undefined,
         deptId: undefined,
-        deptName: undefined,
-        nickname: undefined,
         basePay: undefined,
         meritPay: undefined,
         overtimePay: undefined,
@@ -431,23 +378,19 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      // this.reset();
-      // this.open = true;
-      // this.title = "添加工资基础";
-      createPaySheetBase(/*this.form*/).then(response => {
-        this.$modal.msgSuccess("新增成功");
-        // this.open = false;
+      this.reset();
+      this.open = true;
+      this.title = "添加";
+    },
+
+    /** 生成基础工资表按钮操作 */
+    handleAddAll() {
+      generateSheetBase().then(response => {
+        this.$modal.msgSuccess("生成基础工资表成功");
         this.getList();
       });
     },
 
-    handleAddMonth(){
-      createPaySheetMonth(/*this.form*/).then(response => {
-        this.$modal.msgSuccess("新增成功");
-        // this.open = false;
-        this.getList();
-      });
-    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -473,7 +416,12 @@ export default {
           });
           return;
         }
-
+        // 添加的提交
+        createPaySheetBase(this.form).then(response => {
+          this.$modal.msgSuccess("新增成功");
+          this.open = false;
+          this.getList();
+        });
       });
     },
     /** 删除按钮操作 */

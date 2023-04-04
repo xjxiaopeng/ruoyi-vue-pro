@@ -48,20 +48,23 @@ public class PaySheetBaseController {
     @Resource
     private AdminUserService userService;
 
-
-
     @PostMapping("/create")
     @Operation(summary = "创建工资基础")
     @PreAuthorize("@ss.hasPermission('hr:pay-sheet-base:create')")
-    public CommonResult<Boolean> createPaySheetBase(/*@Valid @RequestBody PaySheetBaseCreateReqVO createReqVO*/) {
+    public CommonResult<Long> createPaySheetBase(@Valid @RequestBody PaySheetBaseCreateReqVO createReqVO) {
+        return success(paySheetBaseService.createPaySheetBase(createReqVO));
+    }
+
+    @PostMapping("/generateSheetBase")
+    @Operation(summary = "批量生成工资基础")
+    @PreAuthorize("@ss.hasPermission('hr:pay-sheet-base:create')")
+    public CommonResult<Boolean> createPaySheetBase() {
         PaySheetBaseCreateReqVO createReqVO=new PaySheetBaseCreateReqVO();
         List<AdminUserDO> userListByStatus = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         for (AdminUserDO adminUserDO : userListByStatus) {
-            //for (AdminUserDO userDO : userService.getUserListByNickname(adminUserDO.getNickname())) {
-                if (!adminUserDO.getUsername().equals("admin")) {
+                if (!"admin".equals(adminUserDO.getUsername())) {
                     createReqVO.setUserId(adminUserDO.getId());
                     createReqVO.setDeptId(adminUserDO.getDeptId());
-                    createReqVO.setNickname(adminUserDO.getNickname());
                     createReqVO.setBasePay(BigDecimal.valueOf(0));
                     createReqVO.setMeritPay(BigDecimal.valueOf(0));
                     createReqVO.setOvertimePay(BigDecimal.valueOf(0));
@@ -79,8 +82,6 @@ public class PaySheetBaseController {
                     paySheetBaseService.createPaySheetBase(createReqVO);
                 }
             }
-
-        //}
         return success(true);
     }
 

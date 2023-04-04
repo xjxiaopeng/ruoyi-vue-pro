@@ -36,12 +36,6 @@ public class PaySheetBaseBaseVO {
     @NotNull(message = "部门ID不能为空")
     private Long deptId;
 
-    @Schema(description = "部门名称", required = true, example = "王五")
-    private String deptName;
-
-    @Schema(description = "用户昵称", required = true, example = "张三")
-    private String nickname;
-
     @Schema(description = "基本工资")
     private BigDecimal basePay;
 

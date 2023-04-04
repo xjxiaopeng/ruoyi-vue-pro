@@ -24,12 +24,6 @@ public class PaySheetBaseExcelVO {
     @ExcelProperty("部门ID")
     private Long deptId;
 
-    @ExcelProperty("部门名称")
-    private String deptName;
-
-    @ExcelProperty("用户昵称")
-    private String nickname;
-
     @ExcelProperty("基本工资")
     private BigDecimal basePay;
 

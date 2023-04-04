@@ -15,7 +15,6 @@ public class PaySheetBaseExportReqVO {
     @Schema(description = "部门ID", example = "24093")
     private Long deptId;
 
-    @Schema(description = "用户昵称", example = "张三")
-    private String nickname;
+
 
 }

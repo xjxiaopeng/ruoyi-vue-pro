@@ -21,7 +21,6 @@ public interface PaySheetBaseMapper extends BaseMapperX<PaySheetBaseDO> {
         return selectPage(reqVO, new LambdaQueryWrapperX<PaySheetBaseDO>()
                 .eqIfPresent(PaySheetBaseDO::getUserId, reqVO.getUserId())
                 .eqIfPresent(PaySheetBaseDO::getDeptId, reqVO.getDeptId())
-                .likeIfPresent(PaySheetBaseDO::getNickname, reqVO.getNickname())
                 .orderByDesc(PaySheetBaseDO::getId));
     }
 
@@ -29,7 +28,6 @@ public interface PaySheetBaseMapper extends BaseMapperX<PaySheetBaseDO> {
         return selectList(new LambdaQueryWrapperX<PaySheetBaseDO>()
                 .eqIfPresent(PaySheetBaseDO::getUserId, reqVO.getUserId())
                 .eqIfPresent(PaySheetBaseDO::getDeptId, reqVO.getDeptId())
-                .likeIfPresent(PaySheetBaseDO::getNickname, reqVO.getNickname())
                 .orderByDesc(PaySheetBaseDO::getId));
     }
 
