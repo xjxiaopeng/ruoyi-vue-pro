@@ -50,7 +50,7 @@
     </el-row>
 
     <!-- 列表 -->
-    <el-table v-loading="loading" :data="list" :max-height="tableHeight" style="width: 100%">
+    <el-table v-loading="loading" :data="list" :max-height="tableHeight" :summary-method="getSummaries" style="width: 100%">
       <!--      <el-table-column type="expand">-->
       <!--        <template  style="text-align: center" v-slot="props">-->
       <!--          <el-form label-position="left" inline class="demo-table-expand">-->
@@ -129,11 +129,7 @@
       <el-table-column label="医疗保险" align="center" prop="medicalInsurance"/>
       <el-table-column label="失业保险" align="center" prop="unemploymentInsurance"/>
       <el-table-column label="工伤保险" align="center" prop="njuryInsurance"/>
-      <!--      <el-table-column label="创建时间" align="center" prop="createTime" width="180">-->
-      <!--        <template v-slot="scope">-->
-      <!--          <span>{{ parseTime(scope.row.createTime) }}</span>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+
       <el-table-column label="操作" align="center" fixed="right" width="180" class-name="small-padding fixed-width">
         <template v-slot="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
@@ -177,12 +173,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
 
-        <!--        <el-form-item label="部门名称" prop="deptName">-->
-        <!--          <el-input v-model="form.deptName" placeholder="请输入部门名称" />-->
-        <!--        </el-form-item>-->
-        <el-row>
           <el-col :span="12">
             <el-form-item label="基本工资" prop="basePay">
               <el-input v-model="form.basePay" placeholder="请输入基本工资"/>
@@ -194,6 +185,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+
         <el-row>
           <el-col :span="12">
             <el-form-item label="加班工资" prop="overtimePay">
@@ -335,9 +328,7 @@ export default {
   created() {
     // 获得用户列表
     listSimpleUsers().then(response => {
-      this.users = response.data.filter(item => item.nickname !== '肖鹏');
-      // console.log(response.data)
-      // console.log(this.users)
+      this.users = response.data.filter(item => item.nickname !== 'admin');
     });
     this.getTreeselect()
     this.getList();

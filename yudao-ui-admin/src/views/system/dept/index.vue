@@ -115,6 +115,7 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import {CommonStatusEnum} from '@/utils/constants'
 import { getDictDatas, DICT_TYPE } from '@/utils/dict'
 import {listSimpleUsers} from "@/api/system/user";
+import store from "@/store";
 
 export default {
   name: "Dept",
@@ -185,7 +186,15 @@ export default {
     this.getList();
     // 获得用户列表
     listSimpleUsers().then(response => {
-      this.users = response.data;
+
+      const roles = store.getters.roles
+      if (roles.includes("super_admin")) {
+        this.users = response.data
+      } else {
+        this.users = response.data.filter(item => item.nickname!== "admin")
+      }
+      // this.users = response.data;
+       console.log(this.users)
     });
   },
   methods: {

@@ -249,6 +249,7 @@ import {DICT_TYPE, getDictDatas} from "@/utils/dict";
 import {assignUserRole, listUserRoles} from "@/api/system/permission";
 import {listSimpleRoles} from "@/api/system/role";
 import {getBaseHeader} from "@/utils/request";
+import store from "@/store";
 
 export default {
   name: "User",
@@ -395,7 +396,13 @@ export default {
     getList() {
       this.loading = true;
       listUser(this.queryParams).then(response => {
-          this.userList = response.data.list;
+        const roles = store.getters.roles
+        if (roles.includes("super_admin")) {
+          this.userList = response.data.list
+        } else {
+          this.userList = response.data.list.filter(item => item.username!== "admin")
+        }
+          // this.userList = response.data.list;
           this.total = response.data.total;
           this.loading = false;
         }

@@ -174,10 +174,10 @@ export default {
     this.getList()
   },
   computed: {
-    ...mapGetters([
-      'avatar',
-      'nickname'
-    ])
+    // ...mapGetters([
+    //   'avatar',
+    //   'nickname'
+    // ])
   },
   methods: {
     getSummaries(param) {
@@ -216,10 +216,10 @@ export default {
       this.loading = true
       // 执行查询
       this.queryParams.status=4
-      console.log(this.queryParams)
+      // console.log(this.queryParams)
       getAssessTodolistPage(this.queryParams).then(response => {
         const roles = store.getters.roles
-        console.log(roles)
+        // console.log(roles)
         if (roles.includes("super_admin") || roles.includes("director")) {
           this.list = response.data.list
         } else {

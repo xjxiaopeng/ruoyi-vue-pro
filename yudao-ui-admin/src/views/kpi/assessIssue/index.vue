@@ -256,7 +256,7 @@ export default {
     this.getList()
     // 获得用户列表
     listSimpleUsers().then(response => {
-      this.users = response.data.filter(item => item.nickname !== '肖鹏');
+      this.users = response.data.filter(item => item.nickname !== 'admin');
       // console.log(response.data)
       //  console.log(this.users)
     });

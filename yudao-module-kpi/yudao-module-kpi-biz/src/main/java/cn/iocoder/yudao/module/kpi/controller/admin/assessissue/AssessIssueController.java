@@ -12,34 +12,23 @@ import cn.iocoder.yudao.module.kpi.service.assessstore.AssessStoreService;
 import cn.iocoder.yudao.module.kpi.service.assesstodolist.AssessTodolistService;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.service.dept.PostService;
-import oracle.jdbc.driver.Const;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.security.access.prepost.PreAuthorize;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
-
-import javax.validation.constraints.*;
 import javax.validation.*;
 import javax.servlet.http.*;
 import java.util.*;
 import java.io.IOException;
-
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
-
 import cn.iocoder.yudao.framework.excel.core.util.ExcelUtils;
-
 import cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog;
-
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.*;
-
 import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.*;
 import cn.iocoder.yudao.module.kpi.dal.dataobject.assessissue.AssessIssueDO;
 import cn.iocoder.yudao.module.kpi.convert.assessissue.AssessIssueConvert;
@@ -128,35 +117,38 @@ public class AssessIssueController {
                                        HttpServletResponse response) throws IOException {
         List<AssessIssueDO> list = assessIssueService.getAssessIssueList(exportReqVO);
         // 导出 Excel
-        List<AssessIssueExcelVO> datas = AssessIssueConvert.INSTANCE.convertList02(list);
-        ExcelUtils.write(response, "考核发布.xls", "数据", AssessIssueExcelVO.class, datas);
+        List<AssessIssueExcelVO> data = AssessIssueConvert.INSTANCE.convertList02(list);
+        ExcelUtils.write(response, "考核发布.xls", "数据", AssessIssueExcelVO.class, data);
     }
 
+    /**
+     * @return Boolean
+     */
     @PutMapping("/update-status")
     @Operation(summary = "修改考核发布状态")
     @PreAuthorize("@ss.hasPermission('kpi:assess-issue:update')")
     public CommonResult<Boolean> updateAssessIssueStatus(@Valid @RequestBody AssessIssueUpdateStatusReqVO reqVO) {
         assessIssueService.updateAssessIssueStatus(reqVO.getId(), reqVO.getStatus());
         if (reqVO.getStatus() == 0) {
-            if ((assessTodolistMapper.selectByAssessTitle(reqVO.getAssessTitle())).size() == 0) {
+            if ((assessTodolistMapper.selectByAssessTitle(reqVO.getAssessTitle())).isEmpty()) {
                 //生成考核待办表数据
-                AssessTodolistCreateReqVO assessTodolistCreateReqVOO = new AssessTodolistCreateReqVO();
+                AssessTodolistCreateReqVO assessTodolistCreateReqVO = new AssessTodolistCreateReqVO();
                 AssessStaffItemCreateReqVO assessStaffItemCreateReqVO = new AssessStaffItemCreateReqVO();
                 AssessIssueDO assessIssue = assessIssueService.getAssessIssue(reqVO.getId());
                 for (Long userid : assessIssue.getUserIds()) {
-                    assessTodolistCreateReqVOO.setIssueId(reqVO.getId());
-                    assessTodolistCreateReqVOO.setAssessTitle(assessIssue.getAssessTitle());
-                    assessTodolistCreateReqVOO.setStaff(adminUserApi.getUser(userid).getNickname());
-                    assessTodolistCreateReqVOO.setStaffStatus(1);
-                    assessTodolistCreateReqVOO.setReviewer(assessIssue.getReviewer());
-                    assessTodolistCreateReqVOO.setReviewerStatus(2);
-                    assessTodolistCreateReqVOO.setDecider(assessIssue.getDecider());
-                    assessTodolistCreateReqVOO.setDeciderStatus(2);
-                    assessTodolistCreateReqVOO.setAssessStartTime(assessIssue.getAssessStartTime());
-                    assessTodolistCreateReqVOO.setAssessEndTime(assessIssue.getAssessEndTime());
-                    assessTodolistCreateReqVOO.setStatus(1);
+                    assessTodolistCreateReqVO.setIssueId(reqVO.getId());
+                    assessTodolistCreateReqVO.setAssessTitle(assessIssue.getAssessTitle());
+                    assessTodolistCreateReqVO.setStaff(adminUserApi.getUser(userid).getNickname());
+                    assessTodolistCreateReqVO.setStaffStatus(1);
+                    assessTodolistCreateReqVO.setReviewer(assessIssue.getReviewer());
+                    assessTodolistCreateReqVO.setReviewerStatus(2);
+                    assessTodolistCreateReqVO.setDecider(assessIssue.getDecider());
+                    assessTodolistCreateReqVO.setDeciderStatus(2);
+                    assessTodolistCreateReqVO.setAssessStartTime(assessIssue.getAssessStartTime());
+                    assessTodolistCreateReqVO.setAssessEndTime(assessIssue.getAssessEndTime());
+                    assessTodolistCreateReqVO.setStatus(1);
                     //生成考核待办表数据
-                    Long todoId = assessTodolistService.createAssessTodolist(assessTodolistCreateReqVOO);
+                    Long todoId = assessTodolistService.createAssessTodolist(assessTodolistCreateReqVO);
                     //通过用户ID查找岗位IDS 遍历岗位IDS
                     for (Long postId : adminUserApi.getUser(userid).getPostIds()) {
                         //根据岗位编号和是否必选查询考核存储库表

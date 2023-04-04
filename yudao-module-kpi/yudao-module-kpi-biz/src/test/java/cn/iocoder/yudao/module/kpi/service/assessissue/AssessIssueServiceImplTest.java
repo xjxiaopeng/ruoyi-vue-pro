@@ -1,33 +1,28 @@
 package cn.iocoder.yudao.module.kpi.service.assessissue;
 
-import jdk.jpackage.internal.Log;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import javax.annotation.Resource;
-
+import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
-
-import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.*;
+import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.AssessIssueCreateReqVO;
+import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.AssessIssueExportReqVO;
+import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.AssessIssuePageReqVO;
+import cn.iocoder.yudao.module.kpi.controller.admin.assessissue.vo.AssessIssueUpdateReqVO;
 import cn.iocoder.yudao.module.kpi.dal.dataobject.assessissue.AssessIssueDO;
 import cn.iocoder.yudao.module.kpi.dal.mysql.assessissue.AssessIssueMapper;
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import org.springframework.context.annotation.Import;
-import java.util.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
-import static cn.hutool.core.util.RandomUtil.*;
-import static cn.iocoder.yudao.module.kpi.enums.ErrorCodeConstants.*;
-import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.*;
-import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.*;
-import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.*;
-import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.*;
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.*;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
+import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
+import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
+import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
+import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
+import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
+import static cn.iocoder.yudao.module.kpi.enums.ErrorCodeConstants.ASSESS_ISSUE_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 /**
 * {@link AssessIssueServiceImpl} 的单元测试类
