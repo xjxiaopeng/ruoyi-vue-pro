@@ -46,6 +46,11 @@ public interface AssessIssueMapper extends BaseMapperX<AssessIssueDO> {
                 .orderByDesc(AssessIssueDO::getId));
     }
 
+    default List<AssessIssueDO> selectLists() {
+        return selectList(new LambdaQueryWrapperX<AssessIssueDO>()
+                .orderByDesc(AssessIssueDO::getId));
+    }
+
     /**
      * @param name
      * @return

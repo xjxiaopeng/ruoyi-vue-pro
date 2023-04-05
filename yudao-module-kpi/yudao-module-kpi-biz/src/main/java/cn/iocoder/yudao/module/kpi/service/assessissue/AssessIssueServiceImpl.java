@@ -123,6 +123,10 @@ public class AssessIssueServiceImpl implements AssessIssueService {
     }
 
     @Override
+    public List<AssessIssueDO> getAssessIssueLists() {
+        return assessIssueMapper.selectLists();
+    }
+    @Override
     public void updateAssessIssueStatus(Long id, Integer status) {
         AssessIssueDO updateObj = new AssessIssueDO();
         updateObj.setId(id);

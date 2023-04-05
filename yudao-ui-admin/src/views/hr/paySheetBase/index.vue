@@ -40,7 +40,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAddAll"
-                   v-hasPermi="['hr:pay-sheet-base:create']">批量生成新的基础工资表
+                   v-hasPermi="['hr:pay-sheet-base:generateBaseAll']">批量生成新的基础工资表
         </el-button>
       </el-col>
 

@@ -67,6 +67,10 @@ public interface AssessIssueService {
      */
     List<AssessIssueDO> getAssessIssueList(AssessIssueExportReqVO exportReqVO);
 
+    List<AssessIssueDO> getAssessIssueLists();
+
+
+
     /**
      *
      * @param id  考核发布id

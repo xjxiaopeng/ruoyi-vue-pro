@@ -57,7 +57,7 @@ public class PaySheetBaseController {
 
     @PostMapping("/generateSheetBase")
     @Operation(summary = "批量生成工资基础")
-    @PreAuthorize("@ss.hasPermission('hr:pay-sheet-base:create')")
+    @PreAuthorize("@ss.hasPermission('hr:pay-sheet-base:generateBaseAll')")
     public CommonResult<Boolean> createPaySheetBase() {
         PaySheetBaseCreateReqVO createReqVO=new PaySheetBaseCreateReqVO();
         List<AdminUserDO> userListByStatus = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
