@@ -1,11 +1,9 @@
 package cn.iocoder.yudao.module.kpi.job;
 
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.quartz.core.handler.JobHandler;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.kpi.dal.dataobject.assessissue.AssessIssueDO;
 import cn.iocoder.yudao.module.kpi.service.assessissue.AssessIssueService;
-import cn.iocoder.yudao.module.system.api.logger.LoginLogApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
