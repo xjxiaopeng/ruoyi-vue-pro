@@ -97,7 +97,8 @@
           <el-button size="mini" type="text" icon="el-icon-thumb" @click="handleDeploy(scope.row)"
                      v-hasPermi="['bpm:model:deploy']">发布流程</el-button>
           <el-button size="mini" type="text" icon="el-icon-ice-cream-round" @click="handleDefinitionList(scope.row)"
-                     v-hasPermi="['bpm:process-definition:query']">流程定义</el-button>
+                     >流程定义</el-button>
+<!--                     v-hasPermi="['bpm:process-definition:query']">流程定义</el-button>-->
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
                      v-hasPermi="['bpm:model:delete']">删除</el-button>
         </template>

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
+@SuppressWarnings("ALL")
 @AutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
 public class YudaoWebAutoConfiguration implements WebMvcConfigurer {

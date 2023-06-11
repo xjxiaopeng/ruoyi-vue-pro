@@ -12,7 +12,7 @@ export default {
   components: { iFrame },
   data() {
     return {
-      url: process.env.VUE_APP_BASE_API + "/jmreport/list?token=" + getAccessToken(),
+      url: process.env.VUE_APP_BASE_API +":48080"+"/jmreport/list?token=" + getAccessToken(),
     };
   },
 };
