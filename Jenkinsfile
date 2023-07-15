@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('从github上拉取代码') {
             steps {
