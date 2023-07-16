@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('从github上拉取代码') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/xjxiaopeng/ruoyi-vue-pro.git']])
+                checkout scmGit(branches: [[name: '*/${branch}']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/xjxiaopeng/ruoyi-vue-pro.git']])
             }
         }
         stage('编译代码') {
