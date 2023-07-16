@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    stages {
+    stages{
         stage('1:从github上拉取代码') {
             steps {
                 checkout scmGit(branches: [[name: '*/${branch}']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/xjxiaopeng/ruoyi-vue-pro.git']])
@@ -18,11 +18,10 @@ pipeline {
         }
 
     }
-    post {
-        always {
+    post{
+        always{
           emailext(
-              subject: '构建通知：${PROJECT_NAME} - Build # ${BUILD_NUMBER} -
-               ${BUILD_STATUS}!',
+              subject: '构建通知：${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!',
               body: '${FILE,path="email.html"}',
               to: 'xjxiaopeng@163.com'
            )
