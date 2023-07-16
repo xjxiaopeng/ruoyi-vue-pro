@@ -17,9 +17,10 @@
         </h2></td>
     </tr>
     <tr>
-        <td><br />
+        <td><br/>
             <b><font color="#0B610B">构建信息</font></b>
-            <hr size="2" width="100%" align="center" /></td>
+            <hr size="2" width="100%" align="center"/>
+        </td>
     </tr>
     <tr>
         <td>
@@ -41,7 +42,8 @@
     <tr>
         <td><b><font color="#0B610B">Changes Since Last
             Successful Build:</font></b>
-            <hr size="2" width="100%" align="center" /></td>
+            <hr size="2" width="100%" align="center"/>
+        </td>
     </tr>
     编写Jenkinsfile添加构建后发送邮件
     <tr>
@@ -49,24 +51,29 @@
             <ul>
                 <li>历史变更记录 : <a
                         href="${PROJECT_URL}changes">${PROJECT_URL}changes</a></li>
-            </ul> ${CHANGES_SINCE_LAST_SUCCESS,reverse=true, format="Changes for
-            Build #%n:<br />%c<br />",showPaths=true,changesFormat="<pre>[%a]<br
-        />%m</pre>",pathFormat="&nbsp;&nbsp;&nbsp;&nbsp;%p"}
+            </ul>
+            ${CHANGES_SINCE_LAST_SUCCESS,reverse=true, format="Changes for
+            Build #%n:<br/>%c<br/>",showPaths=true,changesFormat="
+            <pre>[%a]<br
+            />%m</pre>
+            ",pathFormat="&nbsp;&nbsp;&nbsp;&nbsp;%p"}
         </td>
     </tr>
     <tr>
         <td><b>Failed Test Results</b>
-            <hr size="2" width="100%" align="center" /></td>
+            <hr size="2" width="100%" align="center"/>
+        </td>
     </tr>
     <tr>
         <td><pre
                 style="font-size: 11pt; font-family: Tahoma, Arial, Helvetica,
 sans-serif">$FAILED_TESTS</pre>
-            <br /></td>
+            <br/></td>
     </tr>
     <tr>
         <td><b><font color="#0B610B">构建日志 (最后 100行):</font></b>
-            <hr size="2" width="100%" align="center" /></td>
+            <hr size="2" width="100%" align="center"/>
+        </td>
     </tr>
     <tr>
         <td><textarea cols="80" rows="30" readonly="readonly"
